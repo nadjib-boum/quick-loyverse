@@ -27,7 +27,7 @@ const oauthClient = new OAuthClient({
   clientId: process.env.INTUIT_CLIENT_ID,
   clientSecret: process.env.INTUIT_CLIENT_SECRET,
   environment: process.env.INTUIT_ENVIRONEMENT,
-  redirectUri: `https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl`,
+  redirectUri: process.env.INTUIT_REDIRECT_URI,
 });
 
 app.get("/", (req: Request, res: Response) => {
