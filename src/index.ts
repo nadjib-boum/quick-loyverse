@@ -43,6 +43,7 @@ app.get("/authorize", (req: Request, res: Response) => {
 });
 
 app.get("/callback", (req: Request, res: Response) => {
+  console.log("access_token", req.url);
   oauthClient
     .createToken(req.url)
     .then(function (authResponse: any) {
