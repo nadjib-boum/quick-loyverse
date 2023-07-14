@@ -40,22 +40,24 @@ app.get("/", (req: Request, res: Response) => {
 
 app.get("/authorize", (req: Request, res: Response) => {
   const authUri = oauthClient.authorizeUri({
-    scope: [OAuthClient.scopes.Accounting],
+    scope: [
+      OAuthClient.scopes.Accounting,
+      OAuthClient.scopes.OpenId,
+      OAuthClient.scopes.Profile,
+      OAuthClient.scopes.Email,
+      OAuthClient.scopes.Phone,
+      OAuthClient.scopes.Address,
+    ],
     state: "intuit-test",
   });
   res.status(200).send(authUri);
 });
 
 app.get("/callback", (req: Request, res: Response) => {
-  console.log("access_token", req.url);
   oauthClient
     .createToken(req.url)
     .then(function (authResponse: any) {
-      res
-        .status(200)
-        .send({
-          access_token: JSON.stringify(authResponse.getJson(), null, 2),
-        });
+      res.status(200).send(authResponse.getJson());
     })
     .catch(function (e: any) {
       console.error(e);
