@@ -48,18 +48,19 @@ app.get("/authorize", (req: Request, res: Response) => {
 
 app.get("/callback", (req: Request, res: Response) => {
   console.log("access_token", req.url);
-  res.status(200).send(req.url);
-  /*
   oauthClient
     .createToken(req.url)
     .then(function (authResponse: any) {
-      res.status(200).send(JSON.stringify(authResponse.getJson(), null, 2));
+      res
+        .status(200)
+        .send({
+          access_token: JSON.stringify(authResponse.getJson(), null, 2),
+        });
     })
     .catch(function (e: any) {
       console.error(e);
       res.status(500).send("ERROR");
     });
-    */
 });
 
 const { PORT } = process.env;

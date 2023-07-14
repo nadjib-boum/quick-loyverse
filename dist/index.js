@@ -18,14 +18,16 @@ const memoryCache = {
     auth_code: "",
     access_token: "",
 };
+// https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl
 const oauthClient = new OAuthClient({
     clientId: process.env.INTUIT_CLIENT_ID,
     clientSecret: process.env.INTUIT_CLIENT_SECRET,
     environment: process.env.INTUIT_ENVIRONEMENT,
-    redirectUri: `https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl`,
+    redirectUri: process.env.INTUIT_REDIRECT_URI,
 });
+const time = new Date().toLocaleTimeString();
 app.get("/", (req, res) => {
-    res.status(200).send("Hello API");
+    res.status(200).send("Hello API on: " + time);
 });
 app.get("/authorize", (req, res) => {
     const authUri = oauthClient.authorizeUri({
@@ -35,10 +37,15 @@ app.get("/authorize", (req, res) => {
     res.status(200).send(authUri);
 });
 app.get("/callback", (req, res) => {
+    console.log("access_token", req.url);
     oauthClient
         .createToken(req.url)
         .then(function (authResponse) {
-        res.status(200).send(JSON.stringify(authResponse.getJson(), null, 2));
+        res
+            .status(200)
+            .send({
+            access_token: JSON.stringify(authResponse.getJson(), null, 2),
+        });
     })
         .catch(function (e) {
         console.error(e);
