@@ -32,8 +32,10 @@ const oauthClient = new OAuthClient({
   redirectUri: process.env.INTUIT_REDIRECT_URI,
 });
 
+const time = new Date().toLocaleTimeString();
+
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).send("Hello API");
+  res.status(200).send("Hello API on: " + time);
 });
 
 app.get("/authorize", (req: Request, res: Response) => {
