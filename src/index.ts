@@ -23,6 +23,8 @@ const memoryCache: MemoryCache = {
   access_token: "",
 };
 
+// https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl
+
 const oauthClient = new OAuthClient({
   clientId: process.env.INTUIT_CLIENT_ID,
   clientSecret: process.env.INTUIT_CLIENT_SECRET,
@@ -44,6 +46,8 @@ app.get("/authorize", (req: Request, res: Response) => {
 
 app.get("/callback", (req: Request, res: Response) => {
   console.log("access_token", req.url);
+  res.status(200).send(req.url);
+  /*
   oauthClient
     .createToken(req.url)
     .then(function (authResponse: any) {
@@ -53,6 +57,7 @@ app.get("/callback", (req: Request, res: Response) => {
       console.error(e);
       res.status(500).send("ERROR");
     });
+    */
 });
 
 const { PORT } = process.env;
