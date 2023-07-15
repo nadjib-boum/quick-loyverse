@@ -65,6 +65,31 @@ app.get("/callback", (req: Request, res: Response) => {
     });
 });
 
+app.get("/getCompanyInfo", function (req, res) {
+  const companyID = oauthClient.getToken().realmId;
+
+  const url =
+    oauthClient.environment == "sandbox"
+      ? OAuthClient.environment.sandbox
+      : OAuthClient.environment.production;
+
+  console.log("url", url);
+
+  oauthClient
+    .makeApiCall({
+      url: `${url}v3/company/${companyID}/companyinfo/${companyID}`,
+    })
+    .then(function (authResponse: any) {
+      console.log(
+        `The response for API call is :${JSON.stringify(authResponse)}`
+      );
+      res.send(JSON.parse(authResponse.text()));
+    })
+    .catch(function (e: any) {
+      console.error(e);
+    });
+});
+
 const { PORT } = process.env;
 
 app.listen(PORT, async () => {
