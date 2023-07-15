@@ -54,6 +54,24 @@ app.get("/callback", (req, res) => {
         res.status(500).send("ERROR");
     });
 });
+app.get("/getCompanyInfo", function (req, res) {
+    const companyID = oauthClient.getToken().realmId;
+    const url = oauthClient.environment == "sandbox"
+        ? OAuthClient.environment.sandbox
+        : OAuthClient.environment.production;
+    console.log("url", url);
+    oauthClient
+        .makeApiCall({
+        url: `${url}v3/company/${companyID}/companyinfo/${companyID}`,
+    })
+        .then(function (authResponse) {
+        console.log(`The response for API call is :${JSON.stringify(authResponse)}`);
+        res.send(JSON.parse(authResponse.text()));
+    })
+        .catch(function (e) {
+        console.error(e);
+    });
+});
 const { PORT } = process.env;
 app.listen(PORT, async () => {
     console.log("App Is Running on Localhost, PORT:", PORT);
