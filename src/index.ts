@@ -90,6 +90,26 @@ app.get("/getCompanyInfo", function (req, res) {
     });
 });
 
+app.get("/items", function (req, res) {
+  const companyID = oauthClient.getToken().realmId;
+
+  const url =
+    oauthClient.environment == "sandbox"
+      ? OAuthClient.environment.sandbox
+      : OAuthClient.environment.production;
+
+  oauthClient
+    .makeApiCall({
+      url: `${url}v3/company/${companyID}/query?query=select * from Item`,
+    })
+    .then(function (authResponse: any) {
+      res.send(JSON.parse(authResponse.text()));
+    })
+    .catch(function (e: any) {
+      console.error(e);
+    });
+});
+
 const { PORT } = process.env;
 
 app.listen(PORT, async () => {
