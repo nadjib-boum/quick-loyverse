@@ -6,6 +6,7 @@ import {
 } from "express";
 
 import QuickbooksAuth from "../services/quickbooks-auth";
+import db from "../services/db";
 
 let qb: any = null;
 
@@ -41,6 +42,15 @@ export default (router: Router) => {
         if (qb) {
           await qb.generateAccessToken(req.url);
           const { companyData, accountData } = await qb.getUserInfo();
+          const account = await db.account.findFirst({
+            where: {
+              sub: accountData.sub,
+            }
+          });
+          if (!account) {
+            await db.account.create(accountData);
+          }
+          await db.company.create(companyData);
           res
             .status(200)
             .send({ status: "success", data: { companyData, accountData } });
