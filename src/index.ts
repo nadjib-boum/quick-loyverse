@@ -48,7 +48,7 @@ app.get("/authorize", (req: Request, res: Response) => {
       OAuthClient.scopes.Phone,
       OAuthClient.scopes.Address,
     ],
-    state: "intuit-test",
+    state: "quickverse",
   });
   res.status(200).send(authUri);
 });
@@ -80,9 +80,6 @@ app.get("/getCompanyInfo", function (req, res) {
       url: `${url}v3/company/${companyID}/companyinfo/${companyID}`,
     })
     .then(function (authResponse: any) {
-      console.log(
-        `The response for API call is :${JSON.stringify(authResponse)}`
-      );
       res.send(JSON.parse(authResponse.text()));
     })
     .catch(function (e: any) {
@@ -107,6 +104,18 @@ app.get("/items", function (req, res) {
     })
     .catch(function (e: any) {
       console.error(e);
+    });
+});
+
+app.get("/profile", (req: Request, res: Response) => {
+  oauthClient
+    .getUserInfo()
+    .then(function (response: any) {
+      res.status(200).send(response.json());
+    })
+    .catch(function (e: any) {
+      console.log("The error is " + JSON.stringify(e));
+      res.status(500).send("SERVER ERROR");
     });
 });
 
