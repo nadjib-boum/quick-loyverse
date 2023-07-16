@@ -112,7 +112,7 @@ app.get("/profile", (req: Request, res: Response) => {
     .getUserInfo()
     .then(function (response: any) {
       console.log(response);
-      res.status(200).send("SUCCESS");
+      res.status(200).send(response);
     })
     .catch(function (e: any) {
       console.log(e);
