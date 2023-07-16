@@ -1,19 +1,30 @@
 generator client {
   provider = "prisma-client-js"
-  // output = "../node_modules/.prisma/client"
 }
 
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
+  // relationMode = "prisma"
 }
 
 model Account {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  access_token  String
-  id_token      String
-  refresh_token String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt 
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  sub             String    @unique
+  username        String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt 
+  companies       Company[]
+}
+
+model Company {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  realmId         String
+  access_token    String
+  refresh_token   String
+  id_token        String
+  accountId       String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt 
+  account         Account   @relation(fields: [accountId], references: [sub], onDelete: Cascade, onUpdate: Cascade)
 }

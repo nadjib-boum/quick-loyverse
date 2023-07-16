@@ -23,15 +23,6 @@ const memoryCache: MemoryCache = {
   access_token: "",
 };
 
-// https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl
-
-const oauthClient = new OAuthClient({
-  clientId: process.env.INTUIT_CLIENT_ID,
-  clientSecret: process.env.INTUIT_CLIENT_SECRET,
-  environment: process.env.INTUIT_ENVIRONEMENT,
-  redirectUri: process.env.INTUIT_REDIRECT_URI,
-});
-
 const time = new Date().toLocaleTimeString();
 
 app.get("/", (req: Request, res: Response) => {
@@ -39,6 +30,12 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.get("/authorize", (req: Request, res: Response) => {
+  const oauthClient = new OAuthClient({
+    clientId: process.env.INTUIT_CLIENT_ID,
+    clientSecret: process.env.INTUIT_CLIENT_SECRET,
+    environment: process.env.INTUIT_ENVIRONEMENT,
+    redirectUri: process.env.INTUIT_REDIRECT_URI,
+  });
   const authUri = oauthClient.authorizeUri({
     scope: [
       OAuthClient.scopes.Accounting,
@@ -54,6 +51,12 @@ app.get("/authorize", (req: Request, res: Response) => {
 });
 
 app.get("/callback", (req: Request, res: Response) => {
+  const oauthClient = new OAuthClient({
+    clientId: process.env.INTUIT_CLIENT_ID,
+    clientSecret: process.env.INTUIT_CLIENT_SECRET,
+    environment: process.env.INTUIT_ENVIRONEMENT,
+    redirectUri: process.env.INTUIT_REDIRECT_URI,
+  });
   oauthClient
     .createToken(req.url)
     .then(function (authResponse: any) {
@@ -66,6 +69,12 @@ app.get("/callback", (req: Request, res: Response) => {
 });
 
 app.get("/getCompanyInfo", function (req, res) {
+  const oauthClient = new OAuthClient({
+    clientId: process.env.INTUIT_CLIENT_ID,
+    clientSecret: process.env.INTUIT_CLIENT_SECRET,
+    environment: process.env.INTUIT_ENVIRONEMENT,
+    redirectUri: process.env.INTUIT_REDIRECT_URI,
+  });
   const companyID = oauthClient.getToken().realmId;
 
   const url =
@@ -87,6 +96,7 @@ app.get("/getCompanyInfo", function (req, res) {
     });
 });
 
+/*
 app.get("/items", function (req, res) {
   const companyID = oauthClient.getToken().realmId;
 
@@ -106,13 +116,18 @@ app.get("/items", function (req, res) {
       console.error(e);
     });
 });
-
+*/
 app.get("/profile", (req: Request, res: Response) => {
+  const oauthClient = new OAuthClient({
+    clientId: process.env.INTUIT_CLIENT_ID,
+    clientSecret: process.env.INTUIT_CLIENT_SECRET,
+    environment: process.env.INTUIT_ENVIRONEMENT,
+    redirectUri: process.env.INTUIT_REDIRECT_URI,
+  });
   oauthClient
     .getUserInfo()
     .then(function (response: any) {
-      console.log(response);
-      res.status(200).send(response);
+      res.status(200).send(response.json);
     })
     .catch(function (e: any) {
       console.log(e);
