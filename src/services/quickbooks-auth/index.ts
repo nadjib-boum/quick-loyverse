@@ -1,13 +1,31 @@
 const OAuthClient = require("intuit-oauth");
 
-interface IQuickBooks {
+type CompanyData = {
+  realmId: number;
+  access_token: string;
+  refresh_token: string;
+  id_token: string;
+  sub: string;
+};
+
+type AccountData = {
+  sub: string;
+  username: string;
+};
+
+type UserInfo = {
+  companyData: CompanyData;
+  accountData: AccountData;
+};
+
+interface IQuickbooksAuth {
   oauthClient: any;
   getAuthUri: () => string;
   generateAccessToken: (authCode: string) => Promise<string>;
-  getUserInfo: () => Promise<any>;
+  getUserInfo: () => Promise<UserInfo>;
 }
 
-class Quickbooks implements IQuickBooks {
+class QuickbooksAuth implements IQuickbooksAuth {
   public oauthClient;
   constructor() {
     this.oauthClient = new OAuthClient({
@@ -38,10 +56,25 @@ class Quickbooks implements IQuickBooks {
     return access_token;
   }
 
-  async getUserInfo(): Promise<any> {
+  async getUserInfo(): Promise<UserInfo> {
     const userInfo = await this.oauthClient.getUserInfo();
-    return userInfo;
+    const {
+      token: { realmId, access_token, refresh_token, id_token, sub },
+      json: { givenName, familyName },
+    } = userInfo;
+    const companyData: CompanyData = {
+      realmId,
+      access_token,
+      refresh_token,
+      id_token,
+      sub,
+    };
+    const accountData: AccountData = {
+      sub: sub,
+      username: `${givenName} ${familyName}`,
+    };
+    return { companyData, accountData };
   }
 }
 
-export default Quickbooks;
+export default QuickbooksAuth;

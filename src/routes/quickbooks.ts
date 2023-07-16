@@ -5,7 +5,7 @@ import {
   type Router,
 } from "express";
 
-import Quickbooks from "../services/quickbooks";
+import QuickbooksAuth from "../services/quickbooks-auth";
 
 let qb: any = null;
 
@@ -25,7 +25,7 @@ export default (router: Router) => {
     "/quickbooks/auth",
     (req: Request, res: Response, next: NextFunction) => {
       try {
-        qb = new Quickbooks();
+        qb = new QuickbooksAuth();
         const authUri = qb.getAuthUri();
         res.status(200).send({ status: "success", data: { authUri } });
       } catch (err: any) {
@@ -40,8 +40,11 @@ export default (router: Router) => {
       try {
         if (qb) {
           await qb.generateAccessToken(req.url);
-          const authData = await qb.getUserInfo();
-          res.status(200).send({ status: "success", data: { authData } });
+          const { companyData, accountData } = await qb.getUserInfo();
+          res
+            .status(200)
+            .send({ status: "success", data: { companyData, accountData } });
+          qb = null;
         } else {
           res
             .status(401)

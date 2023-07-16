@@ -19,12 +19,13 @@ model Account {
 
 model Company {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  realmId         String    @unique
+  realmId         Int    @unique
   access_token    String
   refresh_token   String
   id_token        String
-  accountId       String
+  loyverse_token  String?
+  sub             String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
-  account         Account   @relation(fields: [accountId], references: [sub], onDelete: Cascade, onUpdate: Cascade)
+  account         Account   @relation(fields: [sub], references: [sub], onDelete: Cascade, onUpdate: Cascade)
 }
