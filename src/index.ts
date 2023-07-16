@@ -111,7 +111,8 @@ app.get("/profile", (req: Request, res: Response) => {
   oauthClient
     .getUserInfo()
     .then(function (response: any) {
-      res.status(200).send(response.json());
+      console.log(response);
+      res.status(200).send("SUCCESS");
     })
     .catch(function (e: any) {
       console.log(e);
