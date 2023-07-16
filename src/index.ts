@@ -114,7 +114,7 @@ app.get("/profile", (req: Request, res: Response) => {
       res.status(200).send(response.json());
     })
     .catch(function (e: any) {
-      console.log("The error is " + JSON.stringify(e));
+      console.log(e);
       res.status(500).send("SERVER ERROR");
     });
 });
