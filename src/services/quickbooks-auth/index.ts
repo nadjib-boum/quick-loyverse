@@ -59,8 +59,8 @@ class QuickbooksAuth implements IQuickbooksAuth {
   async getUserInfo(): Promise<UserInfo> {
     const userInfo = await this.oauthClient.getUserInfo();
     const {
-      token: { realmId, access_token, refresh_token, id_token, sub },
-      json: { givenName, familyName },
+      token: { realmId, access_token, refresh_token, id_token },
+      json: { givenName, familyName, sub },
     } = userInfo;
     const companyData: CompanyData = {
       realmId,
@@ -70,7 +70,7 @@ class QuickbooksAuth implements IQuickbooksAuth {
       sub,
     };
     const accountData: AccountData = {
-      sub: sub,
+      sub,
       username: `${givenName} ${familyName}`,
     };
     return { companyData, accountData };
