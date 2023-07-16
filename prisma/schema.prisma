@@ -19,7 +19,7 @@ model Account {
 
 model Company {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  realmId         String
+  realmId         String    @unique
   access_token    String
   refresh_token   String
   id_token        String
