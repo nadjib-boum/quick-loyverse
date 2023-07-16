@@ -39,7 +39,7 @@ app.get("/authorize", (req, res) => {
             OAuthClient.scopes.Phone,
             OAuthClient.scopes.Address,
         ],
-        state: "intuit-test",
+        state: "quickverse",
     });
     res.status(200).send(authUri);
 });
@@ -65,11 +65,37 @@ app.get("/getCompanyInfo", function (req, res) {
         url: `${url}v3/company/${companyID}/companyinfo/${companyID}`,
     })
         .then(function (authResponse) {
-        console.log(`The response for API call is :${JSON.stringify(authResponse)}`);
         res.send(JSON.parse(authResponse.text()));
     })
         .catch(function (e) {
         console.error(e);
+    });
+});
+app.get("/items", function (req, res) {
+    const companyID = oauthClient.getToken().realmId;
+    const url = oauthClient.environment == "sandbox"
+        ? OAuthClient.environment.sandbox
+        : OAuthClient.environment.production;
+    oauthClient
+        .makeApiCall({
+        url: `${url}v3/company/${companyID}/query?query=select * from Item`,
+    })
+        .then(function (authResponse) {
+        res.send(JSON.parse(authResponse.text()));
+    })
+        .catch(function (e) {
+        console.error(e);
+    });
+});
+app.get("/profile", (req, res) => {
+    oauthClient
+        .getUserInfo()
+        .then(function (response) {
+        res.status(200).send(response.json());
+    })
+        .catch(function (e) {
+        console.log("The error is " + JSON.stringify(e));
+        res.status(500).send("SERVER ERROR");
     });
 });
 const { PORT } = process.env;
