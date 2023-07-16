@@ -45,12 +45,20 @@ export default (router: Router) => {
           const account = await db.account.findFirst({
             where: {
               sub: accountData.sub,
-            }
+            },
           });
           if (!account) {
-            await db.account.create(accountData);
+            await db.account.create({
+              data: {
+                ...accountData,
+              },
+            });
           }
-          await db.company.create(companyData);
+          await db.company.create({
+            data: {
+              ...companyData,
+            },
+          });
           res
             .status(200)
             .send({ status: "success", data: { companyData, accountData } });
