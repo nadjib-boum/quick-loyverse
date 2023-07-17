@@ -22,7 +22,7 @@ model Company {
   access_token    String
   refresh_token   String
   id_token        String
-  loyverse_token  String?
+  loyverse_token  String?   @default("")
   sub             String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 

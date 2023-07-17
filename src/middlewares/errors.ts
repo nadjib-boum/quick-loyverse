@@ -10,7 +10,7 @@ class ErrorMiddleware {
   }
 
   handler(err: any, req: Request, res: Response, next: NextFunction) {
-    res.status(500).send({ status: "error", error: JSON.stringify(err) });
+    res.status(500).send({ status: "error", error: err });
   }
 }
 
