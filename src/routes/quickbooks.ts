@@ -4,9 +4,9 @@ import {
   type Response,
   type Router,
 } from "express";
-
 import QuickbooksAuth from "../services/quickbooks-auth";
-import db from "../services/db";
+import AccountService from "../services/accounts";
+import CompaniesService from "../services/companies";
 
 let qb: any = null;
 
@@ -42,42 +42,12 @@ export default (router: Router) => {
         if (qb) {
           await qb.generateAccessToken(req.url);
           const { companyData, accountData } = await qb.getUserInfo();
-          /*
-          const account = await db.account.findFirst({
-            where: {
-              sub: accountData.sub,
-            },
-          });
-          if (!account) {
-            
-          }
-          */
-          await db.account.upsert({
-            where: {
-              sub: accountData.sub,
-            },
-            create: {
-              ...accountData,
-            },
-            update: {
-              ...accountData,
-            },
-          });
-          await db.company.upsert({
-            where: {
-              realmId: companyData.realmId,
-            },
-            update: {
-              ...companyData,
-            },
-            create: {
-              ...companyData,
-            },
-          });
+          const account = await AccountService.createAccount(accountData);
+          const company = await CompaniesService.createCompany(companyData);
+          qb = null;
           res
             .status(200)
-            .send({ status: "success", data: { companyData, accountData } });
-          qb = null;
+            .send({ status: "success", data: { account, company } });
         } else {
           res
             .status(401)

@@ -1,14 +1,14 @@
 const OAuthClient = require("intuit-oauth");
 
-type CompanyData = {
-  realmId: number;
+export type CompanyData = {
+  realmId: string;
   access_token: string;
   refresh_token: string;
   id_token: string;
   sub: string;
 };
 
-type AccountData = {
+export type AccountData = {
   sub: string;
   username: string;
 };
