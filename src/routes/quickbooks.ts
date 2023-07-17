@@ -70,7 +70,7 @@ export default (router: Router) => {
             .send({ status: "error", error: "Action Unauthorized" });
         }
       } catch (err: any) {
-        next(new Error(err.msg));
+        next(err);
       }
     }
   );
