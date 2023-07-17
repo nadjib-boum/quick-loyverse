@@ -42,6 +42,7 @@ export default (router: Router) => {
         if (qb) {
           await qb.generateAccessToken(req.url);
           const { companyData, accountData } = await qb.getUserInfo();
+
           const account = await db.account.findFirst({
             where: {
               sub: accountData.sub,
