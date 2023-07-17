@@ -10,7 +10,7 @@ datasource db {
 
 model Account {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  sub             String    @unique
+  sub             String 
   username        String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
