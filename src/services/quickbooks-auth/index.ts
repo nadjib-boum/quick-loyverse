@@ -1,4 +1,4 @@
-const OAuthClient = require("intuit-oauth");
+import OAuthClient from "../../utils/intuit-auth";
 
 export type CompanyData = {
   realmId: string;
