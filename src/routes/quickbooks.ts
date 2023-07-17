@@ -42,20 +42,35 @@ export default (router: Router) => {
         if (qb) {
           await qb.generateAccessToken(req.url);
           const { companyData, accountData } = await qb.getUserInfo();
+          /*
           const account = await db.account.findFirst({
             where: {
               sub: accountData.sub,
             },
           });
           if (!account) {
-            await db.account.create({
-              data: {
-                ...accountData,
-              },
-            });
+            
           }
-          await db.company.create({
-            data: {
+          */
+          await db.account.upsert({
+            where: {
+              sub: accountData.sub,
+            },
+            create: {
+              ...accountData,
+            },
+            update: {
+              ...accountData,
+            },
+          });
+          await db.company.upsert({
+            where: {
+              realmId: companyData.realmId,
+            },
+            update: {
+              ...companyData,
+            },
+            create: {
               ...companyData,
             },
           });
