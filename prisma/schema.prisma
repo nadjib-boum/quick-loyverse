@@ -14,12 +14,11 @@ model Account {
   username        String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
-  companies       Company[]
 }
 
 model Company {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  realmId         Int       @unique
+  realmId         Int      
   access_token    String
   refresh_token   String
   id_token        String
@@ -27,5 +26,4 @@ model Company {
   sub             String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
-  account         Account   @relation(fields: [sub], references: [sub], onDelete: Cascade, onUpdate: Cascade)
 }
