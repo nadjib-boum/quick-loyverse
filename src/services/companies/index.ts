@@ -46,7 +46,13 @@ class CompaniesService implements ICompaniesService {
     return company;
   }
   async getAllCompanies(): Promise<CompanyItem[]> {
-    const companies = await db.company.findMany();
+    const companies = await db.company.findMany({
+      select: {
+        id: true,
+        realmId: true,
+        sub: true,
+      },
+    });
     return companies;
   }
 }
