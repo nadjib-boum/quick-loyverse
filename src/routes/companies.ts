@@ -1,9 +1,7 @@
-import type { NextFunction, Request, Response, Router } from "express";
-import { getAllCompanies } from "../controllers/companies";
+import type { Router } from "express";
+import { getAllCompanies, renderApp } from "../controllers/companies";
 
 export default (router: Router) => {
-  router.get("/app", (req: Request, res: Response, next: NextFunction) => {
-    res.render("app");
-  });
+  router.get("/app", renderApp);
   router.get("/companies", getAllCompanies);
 };

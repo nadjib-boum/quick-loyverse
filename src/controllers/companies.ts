@@ -1,6 +1,15 @@
 import type { Request, Response, NextFunction } from "express";
 import CompaniesService from "../services/companies";
 
+export async function renderApp(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const companies = await CompaniesService.getAllCompanies();
+  res.render("app", { companies });
+}
+
 export async function getAllCompanies(
   req: Request,
   res: Response,

@@ -12,17 +12,6 @@ let qb: any = null;
 
 export default (router: Router) => {
   router.get(
-    "/quickbooks",
-    (req: Request, res: Response, next: NextFunction) => {
-      try {
-        res.send("Quickbooks API");
-      } catch (err: any) {
-        next(err);
-      }
-    }
-  );
-
-  router.get(
     "/quickbooks/auth",
     (req: Request, res: Response, next: NextFunction) => {
       try {

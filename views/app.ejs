@@ -10,7 +10,33 @@
 
 <body>
 
-  <h1>hello app</h1>
+  <div class="app">
+    <h3>
+      Companies List
+    </h3>
+    <button id="addCompany">new company</button>
+    <table class="nice-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let company of companies) { %>
+          <tr>
+            <td>
+              <%= company.realmId %>
+            </td>
+            <td>
+              <a href="#">update</a>
+            </td>
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+
   <script src="/js/script.js"></script>
 </body>
 
