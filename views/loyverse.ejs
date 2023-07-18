@@ -39,13 +39,18 @@
     .form-container button:hover {
       background-color: #0056b3;
     }
+
+    h2 {
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
 
   <div class="form-container">
-    <form action="/api/loyverse/<%= realmId %>" method="post">
+    <form action="/api/loyverse/auth/<%= realmId %>" method="post">
+      <h3>Insert Loyverse Access Token</h3>
       <input type="password" placeholder="Password">
       <button type="submit">Save</button>
     </form>
