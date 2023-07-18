@@ -14,7 +14,7 @@ export function validate_loyverseAuth(
       const error = new APIError({
         code: 400,
         label: "SAVING_LOYVERSE_ACCESS_TOKEN_FAILED",
-        description: "companyId is missing",
+        description: "companyId is invalid",
       });
       throw error;
     }

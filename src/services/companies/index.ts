@@ -1,8 +1,13 @@
+import { Company } from "@prisma/client";
 import db, { type dbResponse } from "../../utils/db";
 import type { CompanyData } from "../quickbooks-auth";
+
+type CompanyItem = Pick<Company, "id" | "realmId" | "sub">;
+
 interface ICompaniesService {
   createCompany: (data: CompanyData) => Promise<dbResponse>;
   setLoyverseToken: (companyId: string, token: string) => Promise<dbResponse>;
+  getAllCompanies: () => Promise<CompanyItem[]>;
 }
 
 class CompaniesService implements ICompaniesService {
@@ -39,6 +44,10 @@ class CompaniesService implements ICompaniesService {
       },
     });
     return company;
+  }
+  async getAllCompanies(): Promise<CompanyItem[]> {
+    const companies = await db.company.findMany();
+    return companies;
   }
 }
 

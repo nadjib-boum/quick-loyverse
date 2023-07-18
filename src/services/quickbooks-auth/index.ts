@@ -1,17 +1,12 @@
+import { Account, Company } from "@prisma/client";
 import OAuthClient from "../../utils/intuit-auth";
 
-export type CompanyData = {
-  realmId: string;
-  access_token: string;
-  refresh_token: string;
-  id_token: string;
-  sub: string;
-};
+export type CompanyData = Pick<
+  Company,
+  "realmId" | "access_token" | "refresh_token" | "id_token" | "sub"
+>;
 
-export type AccountData = {
-  sub: string;
-  username: string;
-};
+export type AccountData = Pick<Account, "sub" | "username">;
 
 type UserInfo = {
   companyData: CompanyData;
