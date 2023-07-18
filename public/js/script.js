@@ -3,7 +3,9 @@ window.onload = async () => {
   const {
     data: { authUri },
   } = await fetchData("/api/quickbooks/auth");
-  addCompany.href = authUri;
+  addCompany.onclick = () => {
+    location.href = authUri;
+  };
 };
 
 async function fetchData(url, options = {}) {
