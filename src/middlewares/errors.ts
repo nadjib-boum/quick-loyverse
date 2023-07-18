@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import APIError from "../utils/errors";
 
 class ErrorMiddleware {
   logger(err: any, req: Request, res: Response, next: NextFunction) {
@@ -10,6 +11,11 @@ class ErrorMiddleware {
   }
 
   handler(err: any, req: Request, res: Response, next: NextFunction) {
+    if (err instanceof APIError) {
+      return res
+        .status(err.getError().code)
+        .send({ status: "error", error: err });
+    }
     res.status(500).send({ status: "error", error: err });
   }
 }
