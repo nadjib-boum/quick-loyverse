@@ -5,13 +5,13 @@ import type { CompanyData } from "../quickbooks-auth";
 type CompanyItem = Pick<Company, "id" | "realmId" | "sub">;
 
 interface ICompaniesService {
-  createCompany: (data: CompanyData) => Promise<dbResponse>;
+  createCompany: (data: CompanyData) => Promise<CompanyItem>;
   setLoyverseToken: (companyId: string, token: string) => Promise<dbResponse>;
   getAllCompanies: () => Promise<CompanyItem[]>;
 }
 
 class CompaniesService implements ICompaniesService {
-  async createCompany(data: CompanyData): Promise<dbResponse> {
+  async createCompany(data: CompanyData): Promise<CompanyItem> {
     const company = await db.company.upsert({
       where: {
         realmId: data.realmId,
@@ -24,6 +24,8 @@ class CompaniesService implements ICompaniesService {
       },
       select: {
         id: true,
+        realmId: true,
+        sub: true,
       },
     });
     return company;

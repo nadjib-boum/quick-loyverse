@@ -34,9 +34,12 @@ export default (router: Router) => {
           const account = await AccountService.createAccount(accountData);
           const company = await CompaniesService.createCompany(companyData);
           qb = null;
+          res.render("loyverse", { realmId: company.realmId });
+          /*
           res
             .status(200)
             .send({ status: "success", data: { account, company } });
+            */
         } else {
           res
             .status(401)

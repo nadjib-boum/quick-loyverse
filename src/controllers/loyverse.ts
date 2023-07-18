@@ -13,7 +13,8 @@ export async function loyverseAuth(
       companyId,
       loyverse_token
     );
-    res.status(200).send({ status: "success", data: { company } });
+    res.redirect("https://quick-loyverse.onrender.com/api/app");
+    // res.status(200).send({ status: "success", data: { company } });
   } catch (err: any) {
     next(err);
   }
