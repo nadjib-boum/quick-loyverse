@@ -6,7 +6,7 @@ interface IAccountsService {
 
 class AccountsService implements IAccountsService {
   async createAccount(data: AccountData): Promise<dbResponse> {
-    return await db.account.upsert({
+    const account = await db.account.upsert({
       where: {
         sub: data.sub,
       },
@@ -20,6 +20,7 @@ class AccountsService implements IAccountsService {
         id: true,
       },
     });
+    return account;
   }
 }
 
