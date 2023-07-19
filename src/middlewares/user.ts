@@ -27,6 +27,7 @@ export function authorize(req: Request, res: Response, next: NextFunction) {
         code: 401,
         label: "Unauthorized",
         description: "token is missing",
+        details: `token: ${token}`,
       });
     }
 
