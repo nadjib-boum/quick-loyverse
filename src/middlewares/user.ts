@@ -12,6 +12,7 @@ export function validateLogin(req: Request, res: Response, next: NextFunction) {
         description: "username or password is missing",
       });
     }
+    next();
   } catch (err: any) {
     next(err);
   }

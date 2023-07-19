@@ -4,6 +4,6 @@ import { login, authCallback, logout } from "../controllers/user";
 
 export default (router: Router) => {
   router.post("/user/login", validateLogin, login);
-  router.post("/user/auth", authorize, authCallback);
-  router.post("/user/logout", authorize, logout);
+  router.get("/user/auth", authorize, authCallback);
+  router.get("/user/logout", authorize, logout);
 };
