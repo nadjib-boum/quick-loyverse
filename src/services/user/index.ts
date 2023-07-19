@@ -19,12 +19,14 @@ class UserService implements IUserService {
       ) {
         const token = this.tokensUtil.generateToken({ username });
         return token;
+      } else {
+        throw new APIError({
+          code: 400,
+          label: "AUTHENTICATION_FAILED",
+          description: "incorrect username or password",
+          details: `username: ${process.env.USERNAME}; password: ${process.env.PASSWORD}`,
+        });
       }
-      throw new APIError({
-        code: 400,
-        label: "AUTHENTICATION_FAILED",
-        description: "Invalid username or password",
-      });
     } catch (err: any) {
       throw err;
     }
