@@ -34,14 +34,13 @@ class UserService implements IUserService {
   authorize(token: string): void {
     try {
       this.tokensUtil.verifyToken(token);
+    } catch (err: any) {
       throw new APIError({
         code: 401,
         label: "UNAUTHORIZED",
         description: "invalid token",
         details: `token: ${token}`,
       });
-    } catch (err: any) {
-      throw err;
     }
   }
 }
