@@ -38,6 +38,7 @@ class UserService implements IUserService {
         code: 401,
         label: "UNAUTHORIZED",
         description: "invalid token",
+        details: `token: ${token}`,
       });
     } catch (err: any) {
       throw err;
