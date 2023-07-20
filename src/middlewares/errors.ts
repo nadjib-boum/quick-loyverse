@@ -11,8 +11,12 @@ class ErrorMiddleware {
   }
 
   handler(err: any, req: Request, res: Response, next: NextFunction) {
-    const code = err instanceof APIError ? err.getError().code : 500;
-    res.status(code).send({ status: "error", error: err });
+    if (err instanceof APIError) {
+      res
+        .status(err.getError().code)
+        .send({ status: "error", error: { ...err.getError() } });
+    }
+    res.status(500).send({ status: "error", error: err });
   }
 }
 

@@ -18,6 +18,7 @@ class AccountsService implements IAccountsService {
       },
       select: {
         id: true,
+        sub: true,
       },
     });
     return account;
