@@ -9,6 +9,8 @@ import ErrorMiddleware from "./middlewares/errors";
 const app = express();
 const server = http.createServer(app);
 
+app.set("view engine", "ejs");
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

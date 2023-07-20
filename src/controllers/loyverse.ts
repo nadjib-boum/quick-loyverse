@@ -9,12 +9,8 @@ export async function loyverseAuth(
   try {
     const { companyId } = req.params;
     const { loyverse_token } = req.body;
-    const company = await CompaniesService.setLoyverseToken(
-      companyId,
-      loyverse_token
-    );
-    // res.redirect("https://quick-loyverse.onrender.com/api/app");
-    res.status(200).send({ status: "success", data: { company } });
+    await CompaniesService.setLoyverseToken(companyId, loyverse_token);
+    res.redirect(process.env.LOYVERSE_REDIRECT!);
   } catch (err: any) {
     next(err);
   }
