@@ -11,20 +11,18 @@ export function validate_loyverseAuth(
     const { companyId } = req.params;
     const { loyverse_token } = req.body;
     if (!isValidObjectId(companyId)) {
-      const error = new APIError({
+      throw new APIError({
         code: 400,
         label: "SAVING_LOYVERSE_ACCESS_TOKEN_FAILED",
         description: "companyId is invalid",
       });
-      throw error;
     }
     if (!loyverse_token) {
-      const error = new APIError({
+      throw new APIError({
         code: 400,
         label: "SAVING_LOYVERSE_ACCESS_TOKEN_FAILED",
         description: "loyverse token is missing",
       });
-      throw error;
     }
     next();
   } catch (err: any) {

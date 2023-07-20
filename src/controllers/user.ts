@@ -10,8 +10,8 @@ export function login(req: Request, res: Response, next: NextFunction) {
     const { username, password } = req.body;
     const token = UserService.login(username, password);
     res.cookie("token", token, { httpOnly: true });
-    res.redirect("https://quick-loyverse.onrender.com/api/app");
-    // res.status(200).send({ status: "success", data: { token } });
+    // res.redirect("https://quick-loyverse.onrender.com/api/app");
+    res.status(200).send({ status: "success", data: { token } });
   } catch (err: any) {
     next(err);
   }

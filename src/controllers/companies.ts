@@ -7,7 +7,8 @@ export async function renderApp(
   next: NextFunction
 ) {
   const companies = await CompaniesService.getAllCompanies();
-  res.render("app", { companies });
+  // res.render("app", { companies });
+  res.status(200).send({ status: "success", data: { companies } });
 }
 
 export async function getAllCompanies(
