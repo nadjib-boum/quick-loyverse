@@ -1,5 +1,5 @@
 import {
-  NextFunction,
+  type NextFunction,
   type Request,
   type Response,
   type Router,
@@ -7,6 +7,7 @@ import {
 import QuickbooksAuth from "../services/quickbooks-auth";
 import AccountService from "../services/accounts";
 import CompaniesService from "../services/companies";
+import APIError from "../utils/errors";
 
 let qb: any = null;
 
@@ -28,18 +29,19 @@ export default (router: Router) => {
     "/quickbooks/auth/callback",
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        if (qb) {
-          await qb.generateAccessToken(req.url);
-          const { companyData, accountData } = await qb.getUserInfo();
-          const account = await AccountService.createAccount(accountData);
-          const company = await CompaniesService.createCompany(companyData);
-          qb = null;
-          res.render("loyverse", { id: company.id });
-        } else {
-          res
-            .status(401)
-            .send({ status: "error", error: "Action Unauthorized" });
+        if (!qb) {
+          throw new APIError({
+            code: 401,
+            label: "ADDING_CAOMPANY_FAILED",
+            description: "Action Unauthorized",
+          });
         }
+        await qb.generateAccessToken(req.url);
+        const { companyData, accountData } = await qb.getUserInfo();
+        const account = await AccountService.createAccount(accountData);
+        const company = await CompaniesService.createCompany(companyData);
+        qb = null;
+        res.render("pages/loyverse", { id: company.id });
       } catch (err: any) {
         next(err);
       }
