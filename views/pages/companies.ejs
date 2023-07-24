@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EJS, Sass, and TypeScript Boilerplate</title>
+  <%- include('./partials/links') %>
+</head>
+
+<body>
+  <div class="container mt-5" style="width: 400px;">
+    <h4 class="mb-3">
+      Companies List
+    </h4>
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr>
+          <th>Companies</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let company of companies) { %>
+          <tr>
+            <td>
+              <%= company.realmId %>
+            </td>
+
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

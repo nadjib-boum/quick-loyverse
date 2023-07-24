@@ -1,11 +1,26 @@
-import db, { type dbResponse } from "../../utils/db";
-import type { AccountData, CompanyData } from "../quickbooks-auth";
+import db from "../../utils/db";
+import type { AccountData } from "../quickbooks-auth";
+
+const selectAccountFields = {
+  id: true,
+  sub: true,
+  username: true,
+};
+
+type AccountDBData = {
+  id: string;
+  sub: string;
+  username: string;
+};
+
 interface IAccountsService {
-  createAccount: (data: AccountData) => Promise<dbResponse>;
+  createAccount: (data: AccountData) => Promise<AccountDBData>;
+  getAllAccounts: () => Promise<AccountDBData[]>;
+  getCompaniesByAccount: (account_sub: string) => Promise<any>;
 }
 
 class AccountsService implements IAccountsService {
-  async createAccount(data: AccountData): Promise<dbResponse> {
+  async createAccount(data: AccountData): Promise<AccountDBData> {
     const account = await db.account.upsert({
       where: {
         sub: data.sub,
@@ -16,12 +31,24 @@ class AccountsService implements IAccountsService {
       update: {
         ...data,
       },
-      select: {
-        id: true,
-        sub: true,
-      },
+      select: selectAccountFields,
     });
     return account;
+  }
+  async getAllAccounts(): Promise<AccountDBData[]> {
+    const accounts = await db.account.findMany({
+      select: selectAccountFields,
+    });
+    return accounts;
+  }
+  async getCompaniesByAccount(account_sub: string): Promise<any> {
+    const companies = await db.company.findMany({
+      where: {
+        sub: account_sub,
+      },
+      select: selectAccountFields,
+    });
+    return companies;
   }
 }
 
