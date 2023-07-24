@@ -18,17 +18,15 @@
       <thead>
         <tr>
           <th>Accounts</th>
-          <th>More</th>
         </tr>
       </thead>
       <tbody>
         <% for (let account of accounts) { %>
           <tr>
             <td>
-              <%= account.username %>
-            </td>
-            <td>
-              <a href="/api/accounts/<%= account.sub %>">companies</a>
+              <a href="/api/accounts/<%= account.sub %>">
+                <%= account.username %>
+              </a>
             </td>
           </tr>
           <% } %>
