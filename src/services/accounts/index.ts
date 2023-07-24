@@ -46,7 +46,11 @@ class AccountsService implements IAccountsService {
       where: {
         sub: account_sub,
       },
-      select: selectAccountFields,
+      select: {
+        id: true,
+        realmId: true,
+        sub: true,
+      },
     });
     return companies;
   }
