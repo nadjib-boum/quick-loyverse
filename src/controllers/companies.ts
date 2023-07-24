@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import CompaniesService from "../services/companies";
 import QuickbooksClient from "../services/quickbooks-client";
+import AccountsService from "../services/accounts";
 
 export async function getAllCompanies(
   req: Request,
@@ -10,6 +11,20 @@ export async function getAllCompanies(
   try {
     const companies = await CompaniesService.getAllCompanies();
     res.status(200).send({ status: "success", data: { companies } });
+  } catch (err: any) {
+    next(err);
+  }
+}
+
+export async function getCompaniesByAccount(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { account_sub } = req.params;
+    const companies = await AccountsService.getCompaniesByAccount(account_sub);
+    res.render("pages/companies", { companies });
   } catch (err: any) {
     next(err);
   }

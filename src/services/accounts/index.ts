@@ -56,6 +56,6 @@ class AccountsService implements IAccountsService {
   }
 }
 
-const accountService = new AccountsService();
+const accountsService = new AccountsService();
 
-export default accountService;
+export default accountsService;
