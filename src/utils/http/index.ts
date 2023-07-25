@@ -3,6 +3,7 @@ import axios, {
   type AxiosResponse,
   type AxiosRequestConfig,
 } from "axios";
+import queryString from "query-string";
 import type { IHTTPClient } from "./types";
 
 class HTTPClient implements IHTTPClient {
@@ -58,6 +59,10 @@ class HTTPClient implements IHTTPClient {
       config
     );
     return response.data;
+  }
+
+  static queryString(data: object) {
+    return queryString.stringify(data);
   }
 }
 export default HTTPClient;

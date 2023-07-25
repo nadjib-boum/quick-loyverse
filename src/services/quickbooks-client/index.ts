@@ -40,10 +40,10 @@ class QuickbooksClient implements IQuickbooksClient {
     const { refresh_token, access_token } =
       await this.tokensHttpClient.post<Tokens>(
         "/",
-        {
+        HTTPClient.queryString({
           grant_type: "refresh_token",
           refresh_token: this.tokens.refresh_token,
-        },
+        }),
         {
           Accept: AuthHeaders.accept,
           "Content-Type": AuthHeaders.contentType,
