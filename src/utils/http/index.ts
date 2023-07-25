@@ -15,7 +15,7 @@ class HTTPClient {
 
   async request(endpoint: string, { method, body, headers }: RequestProps) {
     try {
-      const res = await fetch(`${this.baseURL}/${endpoint}`, {
+      const res = await fetch(`${this.baseURL}${endpoint}`, {
         method,
         headers: {
           "Content-Type": "application/json",
