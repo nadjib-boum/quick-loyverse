@@ -6,7 +6,7 @@ type Tokens = {
 };
 
 enum AuthHeaders {
-  accept = "Accept",
+  accept = "application/json",
   contentType = "application/x-www-form-urlencoded",
 }
 
