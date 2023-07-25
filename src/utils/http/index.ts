@@ -23,9 +23,7 @@ class HTTPClient {
         },
         body: body ? JSON.stringify(body) : undefined,
       });
-      if (!res.ok) {
-        throw new Error("error");
-      }
+
       return await res.json();
     } catch (err) {
       return Promise.reject(err);
