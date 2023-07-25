@@ -47,7 +47,7 @@ class QuickbooksClient implements IQuickbooksClient {
         {
           Accept: AuthHeaders.accept,
           "Content-Type": AuthHeaders.contentType,
-          authorization: `Basic ${this.getAuthHeader()}`,
+          Authorization: `Basic ${this.getAuthHeader()}`,
         }
       );
     return { refresh_token, access_token };
