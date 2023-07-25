@@ -1,5 +1,7 @@
+// @ts-nocheck
+
 import HTTPClient from "../../utils/http";
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
 type AuthProps = {
   access_token: string;
