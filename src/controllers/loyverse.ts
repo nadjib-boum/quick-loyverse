@@ -27,7 +27,7 @@ export async function getCatgories(
       access_token: process.env.LOYVERSE_ACCESS_TOKEN!,
     });
     const categories = await cl.getCategories();
-    res.redirect(process.env.LOYVERSE_REDIRECT!);
+    res.status(200).send({ categories });
   } catch (err: any) {
     next(err);
   }
