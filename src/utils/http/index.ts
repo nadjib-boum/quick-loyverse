@@ -13,10 +13,7 @@ class HTTPClient implements IHTTPClient {
     this.axiosInstance = axios.create({ baseURL });
   }
 
-  public async get<T = any>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<T> {
+  public async get<T = any>(url: string, config?: any): Promise<T> {
     const response: AxiosResponse<T> = await this.axiosInstance.get(
       url,
       config
