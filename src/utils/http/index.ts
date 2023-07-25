@@ -10,7 +10,7 @@ class HTTPClient implements IHTTPClient {
   private axiosInstance: AxiosInstance;
 
   constructor(baseURL: string) {
-    this.axiosInstance = axios.create({ baseURL });
+    this.axiosInstance = axios.create({ baseURL, withCredentials: true });
   }
 
   public async get<T = any>(url: string, config?: any): Promise<T> {
