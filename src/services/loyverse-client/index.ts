@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import HTTPClient from "../../utils/http";
-import fetch from "node-fetch";
 
 type AuthProps = {
   access_token: string;
@@ -18,6 +17,7 @@ class LoyverseClient implements ILoyverseClient {
     this.loyverseHttpClient = new HTTPClient(process.env.LOYVERSE_BASE_URL!);
   }
   async getCategories() {
+    /*
     const res = await fetch("https://api.loyverse.com/v1.0/categories", {
       method: "GET",
       headers: {
@@ -25,12 +25,10 @@ class LoyverseClient implements ILoyverseClient {
       },
     });
     const categories = await res.json();
-
-    /*
+    */
     const categories = await this.loyverseHttpClient.get("/categories", {
       Authorization: this.authHeader,
     });
-    */
     return categories;
   }
 }

@@ -1,61 +1,93 @@
-import axios, {
-  type AxiosInstance,
-  type AxiosResponse,
-  type AxiosRequestConfig,
-} from "axios";
+import fetch from "node-fetch";
 import queryString from "query-string";
-import type { IHTTPClient } from "./types";
 
-class HTTPClient implements IHTTPClient {
-  private axiosInstance: AxiosInstance;
+type RequestProps = {
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  body?: any;
+  headers?: object;
+};
 
+class HTTPClient {
+  private baseURL: string;
   constructor(baseURL: string) {
-    this.axiosInstance = axios.create({ baseURL, withCredentials: true });
+    this.baseURL = baseURL;
   }
 
-  public async get<T = any>(url: string, config?: any): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.get(
-      url,
-      config
-    );
-    return response.data;
+  async request(endpoint: string, { method, body, headers }: RequestProps) {
+    try {
+      const res = await fetch(`${this.baseURL}/${endpoint}`, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          ...headers,
+        },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      if (!res.ok) {
+        throw new Error("error");
+      }
+      return await res.json();
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  public async get<T = any>(endpoint: string, headers?: object): Promise<T> {
+    try {
+      const data = await this.request(endpoint, {
+        method: "GET",
+        headers,
+      });
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   public async post<T = any, D = any>(
-    url: string,
-    data?: D,
-    config?: any
+    endpoint: string,
+    body?: D,
+    headers?: object
   ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.post(
-      url,
-      data,
-      config
-    );
-    return response.data;
+    try {
+      const data = await this.request(endpoint, {
+        method: "POST",
+        headers,
+        body,
+      });
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   public async put<T = any, D = any>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig
+    endpoint: string,
+    body?: D,
+    headers?: object
   ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.put(
-      url,
-      data,
-      config
-    );
-    return response.data;
+    try {
+      const data = await this.request(endpoint, {
+        method: "POST",
+        headers,
+        body,
+      });
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
-  public async delete<T = any>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.delete(
-      url,
-      config
-    );
-    return response.data;
+  public async delete<T = any>(endpoint: string, headers?: object): Promise<T> {
+    try {
+      const data = await this.request(endpoint, {
+        method: "GET",
+        headers,
+      });
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   static queryString(data: object) {
