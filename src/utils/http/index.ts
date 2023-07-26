@@ -1,10 +1,14 @@
 import fetch from "node-fetch";
 import queryString from "query-string";
 
+type Headers = {
+  [key: string]: string;
+};
+
 type RequestProps = {
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: any;
-  headers?: object;
+  headers?: Headers;
 };
 
 class HTTPClient {
@@ -14,6 +18,13 @@ class HTTPClient {
   }
 
   async request(endpoint: string, { method, body, headers }: RequestProps) {
+    let formattedBody: string | undefined;
+    if (typeof body != "string") {
+      formattedBody = JSON.stringify(body);
+    } else {
+      formattedBody = body;
+    }
+
     try {
       const res = await fetch(`${this.baseURL}${endpoint}`, {
         method,
@@ -21,7 +32,7 @@ class HTTPClient {
           "Content-Type": "application/json",
           ...headers,
         },
-        body: body ? JSON.stringify(body) : undefined,
+        body: formattedBody,
       });
 
       return await res.json();
@@ -30,7 +41,7 @@ class HTTPClient {
     }
   }
 
-  public async get<T = any>(endpoint: string, headers?: object): Promise<T> {
+  public async get<T = any>(endpoint: string, headers?: Headers): Promise<T> {
     try {
       const data = await this.request(endpoint, {
         method: "GET",
@@ -45,7 +56,7 @@ class HTTPClient {
   public async post<T = any, D = any>(
     endpoint: string,
     body?: D,
-    headers?: object
+    headers?: Headers
   ): Promise<T> {
     try {
       const data = await this.request(endpoint, {
@@ -62,7 +73,7 @@ class HTTPClient {
   public async put<T = any, D = any>(
     endpoint: string,
     body?: D,
-    headers?: object
+    headers?: Headers
   ): Promise<T> {
     try {
       const data = await this.request(endpoint, {
@@ -76,7 +87,10 @@ class HTTPClient {
     }
   }
 
-  public async delete<T = any>(endpoint: string, headers?: object): Promise<T> {
+  public async delete<T = any>(
+    endpoint: string,
+    headers?: Headers
+  ): Promise<T> {
     try {
       const data = await this.request(endpoint, {
         method: "GET",
