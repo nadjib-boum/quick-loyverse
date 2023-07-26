@@ -43,14 +43,13 @@ class CompaniesService implements ICompaniesService {
     }
   }
 
-  async getCompanyTokens(id: string): Promise<CompanyItem & Tokens> {
+  async getCompanyTokens(id: string): Promise<Tokens> {
     try {
       const company = await db.company.findFirst({
         where: {
           id,
         },
         select: {
-          ...companySelectedFields,
           access_token: true,
           refresh_token: true,
         },
