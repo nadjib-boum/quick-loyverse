@@ -1,3 +1,12 @@
+import type { Router } from "express";
+import { authenticate, generateAccessToken } from "../controllers/quickbooks";
+
+export default (router: Router) => {
+  router.get("/quickbooks/auth", authenticate);
+  router.get("/quickbooks/auth/callback", generateAccessToken);
+};
+
+/*
 import {
   type NextFunction,
   type Request,
@@ -48,8 +57,6 @@ export default (router: Router) => {
     }
   );
 
-  /*
-
   router.get("/quickbooks/getCompanyInfo", (req: Request, res: Response) => {
     if (oauthClient) {
       const companyID = oauthClient.getToken().realmId;
@@ -98,5 +105,5 @@ export default (router: Router) => {
     }
   });
 
-  */
 };
+  */
