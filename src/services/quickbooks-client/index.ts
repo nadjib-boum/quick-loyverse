@@ -5,6 +5,11 @@ type Tokens = {
   refresh_token: string;
 };
 
+type RefreshTokenPayload = {
+  grant_type: string;
+  refresh_token: string;
+};
+
 enum AuthHeaders {
   accept = "application/json",
   contentType = "application/x-www-form-urlencoded",
@@ -37,12 +42,12 @@ class QuickbooksClient implements IQuickbooksClient {
       : Buffer.from(apiKey).toString("base64");
   }
   async refreshToken(): Promise<Tokens> {
-    const data = await this.tokensHttpClient.post<Tokens>(
+    const data = await this.tokensHttpClient.post<Tokens, RefreshTokenPayload>(
       "/",
-      HTTPClient.queryString({
+      {
         grant_type: "refresh_token",
         refresh_token: this.tokens.refresh_token,
-      }),
+      },
       {
         Accept: AuthHeaders.accept,
         "Content-Type": AuthHeaders.contentType,

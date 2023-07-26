@@ -41,19 +41,12 @@ export async function refreshAccessToken(
     const { access_token, refresh_token } =
       await CompaniesService.getCompanyTokens(id);
 
-    console.log("before", { access_token, refresh_token });
-
     const qbc = new QuickbooksClient({ access_token, refresh_token });
 
     const {
       access_token: updated_access_token,
       refresh_token: updated_refresh_token,
     } = await qbc.refreshToken();
-
-    console.log("after", {
-      access_token: updated_access_token,
-      refresh_token: updated_refresh_token,
-    });
 
     const company = await CompaniesService.updateCompanyTokens(id, {
       access_token: updated_access_token,
