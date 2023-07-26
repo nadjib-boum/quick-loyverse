@@ -22,8 +22,8 @@ model Company {
   access_token    String
   refresh_token   String
   id_token        String
-  access_token_expiry DateTime
-  refresh_token_expiry DateTime
+  access_token_expiry Int
+  refresh_token_expiry Int
   loyverse_token  String?   @default("")
   sub             String
   createdAt       DateTime  @default(now())

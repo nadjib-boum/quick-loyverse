@@ -3,7 +3,13 @@ import OAuthClient from "../../utils/intuit-auth";
 
 export type CompanyData = Pick<
   Company,
-  "realmId" | "access_token" | "refresh_token" | "id_token" | "sub"
+  | "realmId"
+  | "access_token"
+  | "refresh_token"
+  | "id_token"
+  | "sub"
+  | "access_token_expiry"
+  | "refresh_token_expiry"
 >;
 
 export type AccountData = Pick<Account, "sub" | "username">;
@@ -53,17 +59,26 @@ class QuickbooksAuth implements IQuickbooksAuth {
 
   async getUserInfo(): Promise<UserInfo> {
     const userInfo = await this.oauthClient.getUserInfo();
-    console.log(userInfo);
     const {
-      token: { realmId, access_token, refresh_token, id_token },
+      token: {
+        realmId,
+        access_token,
+        refresh_token,
+        id_token,
+        expires_in,
+        x_refresh_token_expires_in,
+      },
       json: { givenName, familyName, sub },
     } = userInfo;
+    const three_min = 1000 * 60 * 3;
     const companyData: CompanyData = {
       realmId,
       access_token,
       refresh_token,
       id_token,
       sub,
+      access_token_expiry: Date.now() + expires_in - three_min,
+      refresh_token_expiry: Date.now() + x_refresh_token_expires_in - three_min,
     };
     const accountData: AccountData = {
       sub,

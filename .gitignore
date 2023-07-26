@@ -1,5 +1,4 @@
 node_modules
 files
 dist
-.env.development
-.env.production
+.env*
