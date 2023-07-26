@@ -37,20 +37,21 @@ class QuickbooksClient implements IQuickbooksClient {
       : Buffer.from(apiKey).toString("base64");
   }
   async refreshToken(): Promise<Tokens> {
-    const { refresh_token, access_token } =
-      await this.tokensHttpClient.post<Tokens>(
-        "/",
-        HTTPClient.queryString({
-          grant_type: "refresh_token",
-          refresh_token: this.tokens.refresh_token,
-        }),
-        {
-          Accept: AuthHeaders.accept,
-          "Content-Type": AuthHeaders.contentType,
-          Authorization: `Basic ${this.getAuthHeader()}`,
-          "User-Agent": `Intuit-OAuthClient-JS_${1}_${"win32"}_${1}_${"win32"}`,
-        }
-      );
+    const data = await this.tokensHttpClient.post<Tokens>(
+      "/",
+      HTTPClient.queryString({
+        grant_type: "refresh_token",
+        refresh_token: this.tokens.refresh_token,
+      }),
+      {
+        Accept: AuthHeaders.accept,
+        "Content-Type": AuthHeaders.contentType,
+        Authorization: `Basic ${this.getAuthHeader()}`,
+        "User-Agent": `Intuit-OAuthClient-JS_${1}_${"win32"}_${1}_${"win32"}`,
+      }
+    );
+    console.log("refresh token", data);
+    const { refresh_token, access_token } = data;
     return { refresh_token, access_token };
   }
   isTokenValid(): boolean {
