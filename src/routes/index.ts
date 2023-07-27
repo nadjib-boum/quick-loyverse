@@ -13,6 +13,5 @@ export default (): Router => {
   accountsRouter(router);
   companiesRoute(router);
   quickbooksRouter(router);
-  loyversRouter(router);
   return router;
 };
