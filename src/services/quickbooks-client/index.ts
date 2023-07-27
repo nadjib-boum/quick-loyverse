@@ -118,8 +118,13 @@ class QuickbooksClient implements IQuickbooksClient {
   async query<T = any>(queryStr: string): Promise<T> {
     try {
       await this.validateTokens();
-      const data = await this.dataHttpClient.get(
-        `/company/${this.realmId}/query?query=${queryStr}`
+      const data = await this.dataHttpClient.post(
+        `/company/${this.realmId}/query`,
+        queryStr,
+        {
+          "Content-Type": "application/text",
+          Authorization: this.tokens.access_token,
+        }
       );
       return data;
     } catch (err) {
