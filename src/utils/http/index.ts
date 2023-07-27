@@ -36,6 +36,7 @@ class HTTPClient {
         method,
         headers: {
           "Content-Type": "application/json",
+          "Content-Length": `${formattedBody?.length}`,
           ...headers,
         },
         body: formattedBody,

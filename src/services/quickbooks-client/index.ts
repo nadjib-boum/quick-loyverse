@@ -121,7 +121,7 @@ class QuickbooksClient implements IQuickbooksClient {
         `/company/${this.realmId}/query`,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/text",
             Accept: "application/json",
             Authorization: `Bearer ${this.tokens.access_token}`,
           },
