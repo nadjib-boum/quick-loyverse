@@ -34,7 +34,7 @@ class HTTPClient {
         },
         body: formattedBody,
       });
-
+      console.log(res);
       return await res.json();
     } catch (err) {
       return Promise.reject(err);

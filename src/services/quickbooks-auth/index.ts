@@ -77,8 +77,9 @@ class QuickbooksAuth implements IQuickbooksAuth {
       refresh_token,
       id_token,
       sub,
-      access_token_expiry: Date.now() + expires_in - three_min,
-      refresh_token_expiry: Date.now() + x_refresh_token_expires_in - three_min,
+      access_token_expiry: Date.now() + expires_in * 1000 - three_min,
+      refresh_token_expiry:
+        Date.now() + x_refresh_token_expires_in * 1000 - three_min,
     };
     const accountData: AccountData = {
       sub,

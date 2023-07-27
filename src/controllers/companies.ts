@@ -53,9 +53,6 @@ export async function refreshAccessToken(
   try {
     const { id } = req.params;
 
-    const { access_token, refresh_token, realmId } =
-      await CompaniesService.getCompanyTokens(id);
-
     const qbc = new QuickbooksClient(id);
 
     await qbc.init();
