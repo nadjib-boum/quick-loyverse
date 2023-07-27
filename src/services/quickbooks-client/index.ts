@@ -125,7 +125,6 @@ class QuickbooksClient implements IQuickbooksClient {
             Authorization: `Bearer ${this.tokens.access_token}`,
           },
           body: queryStr,
-          format: "text",
         }
       );
       return data;
