@@ -123,7 +123,7 @@ class QuickbooksClient implements IQuickbooksClient {
         queryStr,
         {
           "Content-Type": "application/text",
-          Authorization: this.tokens.access_token,
+          Authorization: `Bearer ${this.tokens.access_token}`,
         }
       );
       return data;

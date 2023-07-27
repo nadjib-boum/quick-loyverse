@@ -29,7 +29,7 @@ class HTTPClient {
       const res = await fetch(`${this.baseURL}${endpoint}`, {
         method,
         headers: {
-          // "Content-Type": "application/json",
+          "Content-Type": "application/json",
           ...headers,
         },
         body: formattedBody,
