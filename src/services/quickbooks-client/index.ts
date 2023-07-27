@@ -59,18 +59,17 @@ class QuickbooksClient implements IQuickbooksClient {
       const { refresh_token, access_token } = await this.tokensHttpClient.post<
         Tokens,
         string
-      >(
-        "/",
-        HTTPClient.queryString({
-          grant_type: "refresh_token",
-          refresh_token: this.tokens.refresh_token,
-        }),
-        {
+      >("/", {
+        headers: {
           Accept: AuthHeaders.accept,
           "Content-Type": AuthHeaders.contentType,
           Authorization: `Basic ${this.getAuthHeader()}`,
-        }
-      );
+        },
+        body: HTTPClient.queryString({
+          grant_type: "refresh_token",
+          refresh_token: this.tokens.refresh_token,
+        }),
+      });
       await db.company.update({
         where: {
           id: this.id,
@@ -120,10 +119,13 @@ class QuickbooksClient implements IQuickbooksClient {
       await this.validateTokens();
       const data = await this.dataHttpClient.post(
         `/company/${this.realmId}/query`,
-        queryStr,
         {
-          "Content-Type": "application/text",
-          Authorization: `Bearer ${this.tokens.access_token}`,
+          headers: {
+            "Content-Type": "application/text",
+            Authorization: `Bearer ${this.tokens.access_token}`,
+          },
+          body: queryStr,
+          format: "text",
         }
       );
       return data;

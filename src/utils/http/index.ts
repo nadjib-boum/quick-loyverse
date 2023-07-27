@@ -9,7 +9,10 @@ type RequestProps = {
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: any;
   headers?: Headers;
+  format?: "json" | "text" | "blob";
 };
+
+type RequestOptions = Omit<RequestProps, "method">;
 
 class HTTPClient {
   private baseURL: string;
@@ -17,7 +20,10 @@ class HTTPClient {
     this.baseURL = baseURL;
   }
 
-  async request(endpoint: string, { method, body, headers }: RequestProps) {
+  async request(
+    endpoint: string,
+    { method, body, headers, format = "json" }: RequestProps
+  ) {
     let formattedBody: string | undefined;
     if (typeof body != "string") {
       formattedBody = JSON.stringify(body);
@@ -34,14 +40,22 @@ class HTTPClient {
         },
         body: formattedBody,
       });
-      console.log(res);
+      if (format == "text") {
+        return await res.text();
+      }
+      if (format == "blob") {
+        return await res.blob();
+      }
       return await res.json();
     } catch (err) {
       return Promise.reject(err);
     }
   }
 
-  public async get<T = any>(endpoint: string, headers?: Headers): Promise<T> {
+  public async get<T = any>(
+    endpoint: string,
+    { headers }: RequestOptions
+  ): Promise<T> {
     try {
       const data = await this.request(endpoint, {
         method: "GET",
@@ -55,14 +69,12 @@ class HTTPClient {
 
   public async post<T = any, D = any>(
     endpoint: string,
-    body?: D,
-    headers?: Headers
+    options: RequestOptions
   ): Promise<T> {
     try {
       const data = await this.request(endpoint, {
         method: "POST",
-        headers,
-        body,
+        ...options,
       });
       return data;
     } catch (err) {
@@ -72,14 +84,12 @@ class HTTPClient {
 
   public async put<T = any, D = any>(
     endpoint: string,
-    body?: D,
-    headers?: Headers
+    options: RequestOptions
   ): Promise<T> {
     try {
       const data = await this.request(endpoint, {
         method: "POST",
-        headers,
-        body,
+        ...options,
       });
       return data;
     } catch (err) {
@@ -89,12 +99,12 @@ class HTTPClient {
 
   public async delete<T = any>(
     endpoint: string,
-    headers?: Headers
+    options: RequestOptions
   ): Promise<T> {
     try {
       const data = await this.request(endpoint, {
         method: "GET",
-        headers,
+        ...options,
       });
       return data;
     } catch (err) {
