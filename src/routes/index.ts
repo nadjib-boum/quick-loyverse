@@ -4,7 +4,6 @@ import userRouter from "./user";
 import accountsRouter from "./accounts";
 import companiesRoute from "./companies";
 import quickbooksRouter from "./quickbooks";
-import loyversRouter from "./loyverse";
 
 const router: Router = express.Router();
 
