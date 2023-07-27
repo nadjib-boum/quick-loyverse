@@ -4,6 +4,7 @@ import {
   refreshAccessToken,
   getCompaniesByAccount,
   loyverseAuth,
+  getCompanyInvoices,
 } from "../controllers/companies";
 import {
   validateTokenRefresh,
@@ -19,4 +20,5 @@ export default (router: Router) => {
     loyverseAuth
   );
   router.put("/companies/:id", validateTokenRefresh, refreshAccessToken);
+  router.get("/companies/:id/invoices", getCompanyInvoices);
 };

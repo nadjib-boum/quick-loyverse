@@ -53,22 +53,32 @@ export async function refreshAccessToken(
   try {
     const { id } = req.params;
 
-    const { access_token, refresh_token } =
+    const { access_token, refresh_token, realmId } =
       await CompaniesService.getCompanyTokens(id);
 
-    const qbc = new QuickbooksClient({ access_token, refresh_token });
+    const qbc = new QuickbooksClient(id);
 
-    const {
-      access_token: updated_access_token,
-      refresh_token: updated_refresh_token,
-    } = await qbc.refreshToken();
+    await qbc.init();
 
-    const company = await CompaniesService.updateCompanyTokens(id, {
-      access_token: updated_access_token,
-      refresh_token: updated_refresh_token,
-    });
+    await qbc.refreshAccessToken();
 
-    res.status(200).send({ status: "success", data: { company } });
+    res.status(200).send({ status: "success" });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getCompanyInvoices(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { id } = req.params;
+    const qbc = new QuickbooksClient(id);
+    await qbc.init();
+    const invoices = await qbc.getInvoices();
+    res.status(200).send({ status: "success", data: { invoices } });
   } catch (err) {
     next(err);
   }

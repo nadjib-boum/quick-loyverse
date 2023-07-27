@@ -17,7 +17,6 @@ const companySelectedFields = {
 
 interface ICompaniesService {
   createCompany: (data: CompanyData) => Promise<CompanyItem>;
-  updateCompanyTokens: (id: string, tokens: Tokens) => Promise<CompanyItem>;
   setLoyverseToken: (companyId: string, token: string) => Promise<dbResponse>;
   getAllCompanies: () => Promise<CompanyItem[]>;
 }
@@ -43,7 +42,7 @@ class CompaniesService implements ICompaniesService {
     }
   }
 
-  async getCompanyTokens(id: string): Promise<Tokens> {
+  async getCompanyTokens(id: string): Promise<Tokens & { realmId: string }> {
     try {
       const company = await db.company.findFirst({
         where: {
@@ -52,28 +51,10 @@ class CompaniesService implements ICompaniesService {
         select: {
           access_token: true,
           refresh_token: true,
+          realmId: true,
         },
       });
       return company!;
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
-
-  async updateCompanyTokens(id: string, tokens: Tokens): Promise<CompanyItem> {
-    try {
-      const { access_token, refresh_token } = tokens;
-      const company = await db.company.update({
-        where: {
-          id,
-        },
-        data: {
-          access_token,
-          refresh_token,
-        },
-        select: companySelectedFields,
-      });
-      return company;
     } catch (err) {
       return Promise.reject(err);
     }
