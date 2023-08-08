@@ -51,7 +51,14 @@ class AccountsService implements IAccountsService {
         companies: true,
       },
     });
-    return account;
+    const formattedCompanies = account?.companies.map((company) => ({
+      id: company.id,
+      realmId: company.realmId,
+    }));
+    return {
+      id: account?.id,
+      companies: formattedCompanies,
+    };
   }
 }
 
