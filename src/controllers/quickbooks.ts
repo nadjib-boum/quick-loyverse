@@ -36,7 +36,10 @@ export const generateAccessToken = async (
     await qb.generateAccessToken(req.url);
     const { companyData, accountData } = await qb.getUserInfo();
     const account = await AccountService.createAccount(accountData);
-    const company = await CompaniesService.createCompany(companyData);
+    const company = await CompaniesService.createCompany({
+      ...companyData,
+      accountId: account.id,
+    });
     qb = null;
     res.render("pages/loyverse", { id: company.id });
   } catch (err: any) {

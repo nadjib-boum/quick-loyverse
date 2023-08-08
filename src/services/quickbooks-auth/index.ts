@@ -10,6 +10,7 @@ export type CompanyData = Pick<
   | "sub"
   | "access_token_expiry"
   | "refresh_token_expiry"
+  | "accountId"
 >;
 
 export type AccountData = Pick<Account, "sub" | "username">;
@@ -77,6 +78,7 @@ class QuickbooksAuth implements IQuickbooksAuth {
       refresh_token,
       id_token,
       sub,
+      accountId: "",
       access_token_expiry: Date.now() + expires_in * 1000 - three_min,
       refresh_token_expiry:
         Date.now() + x_refresh_token_expires_in * 1000 - three_min,
