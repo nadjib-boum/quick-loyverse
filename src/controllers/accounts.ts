@@ -22,7 +22,6 @@ export async function getCompaniesByAccount(
   try {
     const { id } = req.params;
     const account = await AccountsService.getCompaniesByAccount(id);
-    console.log(account);
     res.render("pages/companies", { account });
   } catch (err: any) {
     next(err);
