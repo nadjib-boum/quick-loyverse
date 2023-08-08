@@ -37,30 +37,10 @@ export async function getCompaniesByAccount(
   next: NextFunction
 ) {
   try {
-    const { account_sub } = req.params;
-    const companies = await AccountsService.getCompaniesByAccount(account_sub);
+    const { id } = req.params;
+    const companies = await AccountsService.getCompaniesByAccount(id);
     res.render("pages/companies", { companies });
   } catch (err: any) {
-    next(err);
-  }
-}
-
-export async function refreshAccessToken(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const { id } = req.params;
-
-    const qbc = new QuickbooksClient(id);
-
-    await qbc.init();
-
-    await qbc.refreshAccessToken();
-
-    res.status(200).send({ status: "success" });
-  } catch (err) {
     next(err);
   }
 }

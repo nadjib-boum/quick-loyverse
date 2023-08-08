@@ -9,12 +9,6 @@ type Tokens = {
   refresh_token: string;
 };
 
-const companySelectedFields = {
-  id: true,
-  realmId: true,
-  sub: true,
-};
-
 interface ICompaniesService {
   createCompany: (data: CompanyData) => Promise<CompanyItem>;
   setLoyverseToken: (companyId: string, token: string) => Promise<dbResponse>;
@@ -34,7 +28,11 @@ class CompaniesService implements ICompaniesService {
         update: {
           ...data,
         },
-        select: companySelectedFields,
+        select: {
+          id: true,
+          realmId: true,
+          sub: true,
+        },
       });
       return company;
     } catch (err) {
@@ -85,7 +83,11 @@ class CompaniesService implements ICompaniesService {
   async getAllCompanies(): Promise<CompanyItem[]> {
     try {
       const companies = await db.company.findMany({
-        select: companySelectedFields,
+        select: {
+          id: true,
+          realmId: true,
+          sub: true,
+        },
       });
       return companies;
     } catch (err) {

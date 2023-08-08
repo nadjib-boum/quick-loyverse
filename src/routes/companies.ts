@@ -1,15 +1,11 @@
 import type { Router } from "express";
 import {
   getAllCompanies,
-  refreshAccessToken,
   getCompaniesByAccount,
   loyverseAuth,
   getCompanyInvoices,
 } from "../controllers/companies";
-import {
-  validateTokenRefresh,
-  validate_loyverseAuth,
-} from "../middlewares/companies";
+import { validate_loyverseAuth } from "../middlewares/companies";
 
 export default (router: Router) => {
   router.get("/companies", getAllCompanies);
@@ -19,6 +15,5 @@ export default (router: Router) => {
     validate_loyverseAuth,
     loyverseAuth
   );
-  router.put("/companies/:id", validateTokenRefresh, refreshAccessToken);
   router.get("/companies/:id/invoices", getCompanyInvoices);
 };

@@ -20,7 +20,7 @@ class HTTPClient {
     this.baseURL = baseURL;
   }
 
-  async request(
+  private async request(
     endpoint: string,
     { method, body, headers, format = "json" }: RequestProps
   ) {
@@ -113,7 +113,7 @@ class HTTPClient {
     }
   }
 
-  static queryString(data: object) {
+  public static queryString(data: object) {
     return queryString.stringify(data);
   }
 }

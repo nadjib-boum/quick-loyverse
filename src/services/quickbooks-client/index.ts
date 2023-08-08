@@ -30,7 +30,7 @@ class QuickbooksClient implements IQuickbooksClient {
     this.dataHttpClient = new HTTPClient(process.env.INTUIT_BASE_URL!);
   }
 
-  async init() {
+  public async init() {
     const { access_token, refresh_token, realmId } =
       (await db.company.findFirst({
         where: {
@@ -47,14 +47,23 @@ class QuickbooksClient implements IQuickbooksClient {
     this.realmId = realmId;
   }
 
-  getAuthHeader() {
+  public async getInvoices() {
+    try {
+      const invoices = await this.query("select * from Invoice");
+      return invoices;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  private getAuthHeader() {
     const apiKey = `${this.clientId}:${this.clientSecret}`;
     return typeof btoa === "function"
       ? btoa(apiKey)
       : Buffer.from(apiKey).toString("base64");
   }
 
-  async refreshAccessToken(): Promise<Tokens> {
+  private async refreshAccessToken(): Promise<Tokens> {
     try {
       const { refresh_token, access_token } = await this.tokensHttpClient.post<
         Tokens,
@@ -86,7 +95,7 @@ class QuickbooksClient implements IQuickbooksClient {
     }
   }
 
-  async validateTokens() {
+  private async validateTokens() {
     try {
       const { access_token_expiry, refresh_token_expiry } =
         (await db.company.findFirst({
@@ -114,7 +123,7 @@ class QuickbooksClient implements IQuickbooksClient {
     }
   }
 
-  async query<T = any>(queryStr: string): Promise<T> {
+  private async query<T = any>(queryStr: string): Promise<T> {
     try {
       await this.validateTokens();
       const data = await this.dataHttpClient.post(
@@ -129,15 +138,6 @@ class QuickbooksClient implements IQuickbooksClient {
         }
       );
       return data;
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
-
-  async getInvoices() {
-    try {
-      const invoices = await this.query("select * from Invoice");
-      return invoices;
     } catch (err) {
       return Promise.reject(err);
     }

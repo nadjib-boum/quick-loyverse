@@ -41,10 +41,10 @@ class AccountsService implements IAccountsService {
     });
     return accounts;
   }
-  async getCompaniesByAccount(account_sub: string): Promise<any> {
+  async getCompaniesByAccount(id: string): Promise<any> {
     const companies = await db.company.findMany({
       where: {
-        sub: account_sub,
+        id,
       },
       select: {
         id: true,

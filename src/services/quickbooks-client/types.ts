@@ -8,11 +8,7 @@ export enum AuthHeaders {
   contentType = "application/x-www-form-urlencoded",
 }
 
-export interface IQuickbooksClient {
-  refreshAccessToken: () => Promise<Tokens>;
-  getAuthHeader: () => string;
-  validateTokens: () => void;
-}
+export interface IQuickbooksClient {}
 
 export type TokensExpiry = {
   access_token_expiry: number;
