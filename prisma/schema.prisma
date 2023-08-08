@@ -9,23 +9,26 @@ datasource db {
 }
 
 model Account {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  sub             String    @unique
-  username        String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt 
+  id                        String    @id @default(auto()) @map("_id") @db.ObjectId
+  sub                       String    @unique
+  username                  String
+  companies                 Company[]
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt 
 }
 
 model Company {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  realmId         String    @unique
-  access_token    String
-  refresh_token   String
-  id_token        String
-  access_token_expiry Int
-  refresh_token_expiry Int
-  loyverse_token  String?   @default("")
-  sub             String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt 
+  id                        String         @id @default(auto()) @map("_id") @db.ObjectId
+  realmId                   String         @unique
+  access_token              String
+  refresh_token             String
+  id_token                  String
+  access_token_expiry       Int
+  refresh_token_expiry      Int
+  loyverse_token            String          @default("")
+  sub                       String
+  accountId                 String          @db.ObjectId
+  account                   Account         @relation(fields: [accountId], references: [id])
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt 
 }

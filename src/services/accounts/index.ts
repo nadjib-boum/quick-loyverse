@@ -42,17 +42,16 @@ class AccountsService implements IAccountsService {
     return accounts;
   }
   async getCompaniesByAccount(id: string): Promise<any> {
-    const companies = await db.company.findMany({
+    const account = await db.account.findUnique({
       where: {
         id,
       },
       select: {
         id: true,
-        realmId: true,
-        sub: true,
+        companies: true,
       },
     });
-    return companies;
+    return account;
   }
 }
 

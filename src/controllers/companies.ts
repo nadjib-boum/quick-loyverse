@@ -1,7 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import CompaniesService from "../services/companies";
 import QuickbooksClient from "../services/quickbooks-client";
-import AccountsService from "../services/accounts";
 
 export async function getAllCompanies(
   req: Request,
@@ -26,20 +25,6 @@ export async function loyverseAuth(
     const { loyverse_token } = req.body;
     await CompaniesService.setLoyverseToken(companyId, loyverse_token);
     res.redirect(process.env.LOYVERSE_REDIRECT!);
-  } catch (err: any) {
-    next(err);
-  }
-}
-
-export async function getCompaniesByAccount(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const { id } = req.params;
-    const companies = await AccountsService.getCompaniesByAccount(id);
-    res.render("pages/companies", { companies });
   } catch (err: any) {
     next(err);
   }

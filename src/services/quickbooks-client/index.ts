@@ -130,7 +130,7 @@ class QuickbooksClient implements IQuickbooksClient {
           body: queryStr,
         }
       );
-      return data;
+      return data as T;
     } catch (err) {
       return Promise.reject(err);
     }
