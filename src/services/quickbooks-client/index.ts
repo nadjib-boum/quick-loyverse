@@ -4,8 +4,8 @@ import HTTPClient from "../../utils/http";
 import {
   type IQuickbooksClient,
   type Tokens,
+  type TokensExpiry,
   AuthHeaders,
-  TokensExpiry,
 } from "./types";
 
 class QuickbooksClient implements IQuickbooksClient {
@@ -45,22 +45,6 @@ class QuickbooksClient implements IQuickbooksClient {
     this.tokens.access_token = access_token;
     this.tokens.refresh_token = refresh_token;
     this.realmId = realmId;
-  }
-
-  public async getInvoices() {
-    try {
-      const invoices = await this.query("select * from Invoice");
-      return invoices;
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
-
-  private getAuthHeader() {
-    const apiKey = `${this.clientId}:${this.clientSecret}`;
-    return typeof btoa === "function"
-      ? btoa(apiKey)
-      : Buffer.from(apiKey).toString("base64");
   }
 
   private async refreshAccessToken(): Promise<Tokens> {
@@ -108,13 +92,22 @@ class QuickbooksClient implements IQuickbooksClient {
           },
         })) as TokensExpiry;
 
+      if (!refresh_token_expiry || !access_token_expiry) {
+        throw new APIError({
+          label: "QUICKBOOKS_TOKEN_VALIDATE_FAILED",
+          description: "company does not exist",
+          code: 400,
+        });
+      }
+
       if (Date.now() >= refresh_token_expiry!) {
         throw new APIError({
-          label: "QUICKBOOKS_OPERATION_FAILED",
+          label: "QUICKBOOKS_TOKEN_VALIDATE_FAILED",
           description: "refresh token exprired",
           code: 400,
         });
       }
+
       if (Date.now() >= access_token_expiry!) {
         await this.refreshAccessToken();
       }
@@ -141,6 +134,22 @@ class QuickbooksClient implements IQuickbooksClient {
     } catch (err) {
       return Promise.reject(err);
     }
+  }
+
+  public async getInvoices() {
+    try {
+      const invoices = await this.query("select * from Invoice");
+      return invoices;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  private getAuthHeader() {
+    const apiKey = `${this.clientId}:${this.clientSecret}`;
+    return typeof btoa === "function"
+      ? btoa(apiKey)
+      : Buffer.from(apiKey).toString("base64");
   }
 }
 

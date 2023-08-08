@@ -9,7 +9,7 @@ import { validate_loyverseAuth } from "../middlewares/companies";
 
 export default (router: Router) => {
   router.get("/companies", getAllCompanies);
-  router.get("/companies/:account_sub", getCompaniesByAccount);
+  router.get("/companies/:id", getCompaniesByAccount);
   router.post(
     "/companies/loyverse/:companyId",
     validate_loyverseAuth,
