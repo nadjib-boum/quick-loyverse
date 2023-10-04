@@ -31,5 +31,14 @@
       </table>
     </div>
     <a href="/api/user/logout" class="logout-btn btn btn-dark">logout</a>
+    <script>
+      window.onload = async () => {
+        const addCompany = document.querySelector("#addCompany");
+        const {
+          data: { authUri },
+        } = await fetchData("/api/quickbooks/auth");
+        addCompany.href = authUri;
+      };
+    </script>
   </body>
 </html>
