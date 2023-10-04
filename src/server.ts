@@ -1,6 +1,6 @@
 require("dotenv").config();
 import http from "http";
-import express from "express";
+import express, { type Request, type Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import routes from "./routes";
@@ -16,6 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
 app.use("/api", routes());
+app.get("/", (req: Request, res: Response) => {
+  res.redirect("/api/user/login");
+});
 app.use(ErrorMiddleware.logger, ErrorMiddleware.handler);
 
 export default server;
