@@ -24,7 +24,6 @@ class UserService implements IUserService {
           code: 400,
           label: "AUTHENTICATION_FAILED",
           description: "incorrect username or password",
-          details: `username: ${process.env.USERNAME}; password: ${process.env.PASSWORD}`,
         });
       }
     } catch (err: any) {
