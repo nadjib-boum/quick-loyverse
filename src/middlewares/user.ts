@@ -23,18 +23,21 @@ export function authorize(req: Request, res: Response, next: NextFunction) {
     const token = req.cookies.token;
 
     if (!token) {
+      /*
       throw new APIError({
         code: 401,
         label: "Unauthorized",
         description: "token is missing",
       });
+      */
+      return res.redirect("/api/user/login");
     }
 
     UserService.authorize(token);
 
     next();
   } catch (err: any) {
-    next(err);
+    return res.redirect("/api/user/login");
   }
 }
 
