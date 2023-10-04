@@ -15,8 +15,7 @@
               <h3>Login</h3>
             </div>
             <div class="card-body">
-              <form method="POST" action="api/user/login">
-                {% csrf_token %}
+              <form method="POST" action="/api/user/login">
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>
                   <input
