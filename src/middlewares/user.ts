@@ -37,3 +37,19 @@ export function authorize(req: Request, res: Response, next: NextFunction) {
     next(err);
   }
 }
+
+export function redirectToHome(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const token = req.cookies.token;
+
+    UserService.authorize(token);
+
+    return res.redirect("/api/accounts");
+  } catch (err: any) {
+    next();
+  }
+}

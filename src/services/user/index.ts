@@ -31,9 +31,10 @@ class UserService implements IUserService {
       throw err;
     }
   }
-  authorize(token: string): void {
+  authorize(token: string): boolean | void {
     try {
       this.tokensUtil.verifyToken(token);
+      return true;
     } catch (err: any) {
       throw new APIError({
         code: 401,
