@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EJS, Sass, and TypeScript Boilerplate</title>
+    <%- include('../partials/links') %>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EJS, Sass, and TypeScript Boilerplate</title>
-  <%- include('../partials/links') %>
-</head>
-
-<body>
-  <div class="container mt-5" style="width: 400px;">
-    <h4 class="mb-3">
-      Accounts List
-    </h4>
-    <a href="#" id="addCompany" class="btn btn-primary mb-3">Add Company</a>
-    <table class="table table-bordered text-center">
-      <thead>
-        <tr>
-          <th>Accounts</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for (let account of accounts) { %>
+  <body>
+    <div class="container mt-5" style="width: 400px">
+      <h4 class="mb-3">Accounts List</h4>
+      <a href="#" id="addCompany" class="btn btn-primary mb-3">Add Company</a>
+      <table class="table table-bordered text-center">
+        <thead>
+          <tr>
+            <th>Accounts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let account of accounts) { %>
           <tr>
             <td>
               <a href="/api/accounts/<%= account.id %>">
@@ -30,9 +27,9 @@
             </td>
           </tr>
           <% } %>
-      </tbody>
-    </table>
-  </div>
-</body>
-
+        </tbody>
+      </table>
+    </div>
+    <a href="/api/user/logout" class="logout-btn btn btn-dark">logout</a>
+  </body>
 </html>
