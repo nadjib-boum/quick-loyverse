@@ -32,7 +32,9 @@
     </div>
     <a href="/api/user/logout" class="logout-btn btn btn-dark">logout</a>
     <script>
+      console.log("hello from accounts.ejs");
       window.onload = async () => {
+        console.log("window loaded");
         const addCompany = document.querySelector("#addCompany");
         const {
           data: { authUri },
