@@ -15,6 +15,20 @@ export async function getAllCompanies(
   }
 }
 
+export async function getCompanyById(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { id } = req.params;
+  try {
+    const company = await CompaniesService.getCompanyById(id);
+    res.status(200).render("pages/company", { company });
+  } catch (err: any) {
+    next(err);
+  }
+}
+
 export async function loyverseAuth(
   req: Request,
   res: Response,

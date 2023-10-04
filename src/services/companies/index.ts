@@ -11,6 +11,7 @@ type Tokens = {
 
 interface ICompaniesService {
   createCompany: (data: CompanyData) => Promise<CompanyItem>;
+  getCompanyById: (id: string) => Promise<CompanyItem>;
   setLoyverseToken: (companyId: string, token: string) => Promise<dbResponse>;
   getAllCompanies: () => Promise<CompanyItem[]>;
 }
@@ -35,6 +36,24 @@ class CompaniesService implements ICompaniesService {
         },
       });
       return company;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  async getCompanyById(id: string): Promise<CompanyItem> {
+    try {
+      const company = await db.company.findFirst({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          realmId: true,
+          sub: true,
+        },
+      });
+      return company!;
     } catch (err) {
       return Promise.reject(err);
     }
