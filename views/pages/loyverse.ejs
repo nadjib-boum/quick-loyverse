@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loyverse</title>
+    <%- include('../partials/links') %>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loyverse</title>
-  <%- include('../partials/links') %>
-</head>
-
-<body class="center-xy">
-  <div class="container" style="max-width:400px">
-    <div class="card form-card">
-      <div class="card-body">
-        <form action="/api/companies/loyverse/<%= id %>" method="post">
-          <h5 class=" mb-4 text-center">Enter Loyverse Access Token</h5>
-          <div class="form-group">
-            <input type="password" name="loyverse_token" class="form-control" id="passwordInput"
-              placeholder="Enter your password">
-          </div>
-          <button type="submit" class="btn btn-primary mt-3 w-100">Submit</button>
-        </form>
+  <body class="center-xy">
+    <div class="container" style="max-width: 400px">
+      <div class="card form-card">
+        <div class="card-body">
+          <form action="/api/company/loyverse/<%= id %>" method="post">
+            <h5 class="mb-4 text-center">Enter Loyverse Access Token</h5>
+            <div class="form-group">
+              <input
+                type="password"
+                name="loyverse_token"
+                class="form-control"
+                id="passwordInput"
+                placeholder="Enter your password"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 w-100">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>

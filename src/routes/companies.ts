@@ -8,12 +8,12 @@ import {
 import { validate_loyverseAuth } from "../middlewares/companies";
 
 export default (router: Router) => {
-  router.get("/companies", getAllCompanies);
+  router.get("/company", getAllCompanies);
   router.post(
-    "/companies/loyverse/:companyId",
+    "/company/loyverse/:companyId",
     validate_loyverseAuth,
     loyverseAuth
   );
-  router.get("/companies/:id", getCompanyById);
-  router.get("/companies/:id/invoices", getCompanyInvoices);
+  router.get("/company/:id", getCompanyById);
+  // router.get("/companies/:id/invoices", getCompanyInvoices);
 };
