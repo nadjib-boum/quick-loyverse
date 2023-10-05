@@ -33,11 +33,24 @@ class LoyverseClient implements ILoyverseClient {
   }
 
   async getCustomers() {
-    const customers = await this.loyverseHttpClient.get("/customers", {
-      Authorization: this.authHeader,
-      Accept: "application/json",
-    });
-    return customers;
+    try {
+      const res = await fetch("https://api.loyverse.com/v1.0/customers", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer 49cbb595580c46b09041cbe60b30a451`,
+        },
+      });
+      const customers = await res.json();
+      /*
+      const customers = await this.loyverseHttpClient.get("/customers", {
+        Authorization: this.authHeader,
+        Accept: "application/json",
+      });
+      */
+      return customers;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 }
 
