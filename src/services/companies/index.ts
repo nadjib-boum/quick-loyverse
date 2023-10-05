@@ -7,6 +7,7 @@ type CompanyItem = Pick<Company, "id" | "realmId" | "sub">;
 type Tokens = {
   access_token: string;
   refresh_token: string;
+  loyverse_token: string;
 };
 
 interface ICompaniesService {
@@ -68,6 +69,7 @@ class CompaniesService implements ICompaniesService {
         select: {
           access_token: true,
           refresh_token: true,
+          loyverse_token: true,
           realmId: true,
         },
       });

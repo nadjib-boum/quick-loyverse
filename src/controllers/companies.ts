@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import CompaniesService from "../services/companies";
-import QuickbooksClient from "../services/quickbooks-client";
+import LoyverseClient from "../services/loyverse-client";
 
 export async function getAllCompanies(
   req: Request,
@@ -43,7 +43,7 @@ export async function loyverseAuth(
     next(err);
   }
 }
-
+/*
 export async function getCompanyInvoices(
   req: Request,
   res: Response,
@@ -55,6 +55,22 @@ export async function getCompanyInvoices(
     await qbc.init();
     const invoices = await qbc.getInvoices();
     res.status(200).send({ status: "success", data: { invoices } });
+  } catch (err) {
+    next(err);
+  }
+}
+*/
+export async function getCompanyCustomers(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { id } = req.params;
+    const company = await CompaniesService.getCompanyTokens(id);
+    const lvc = new LoyverseClient({ access_token: company.loyverse_token });
+    const customers = await lvc.getCustomers();
+    res.status(200).send({ status: "success", data: { customers } });
   } catch (err) {
     next(err);
   }

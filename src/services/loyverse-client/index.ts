@@ -31,6 +31,13 @@ class LoyverseClient implements ILoyverseClient {
     });
     return categories;
   }
+
+  async getCustomers() {
+    const customers = await this.loyverseHttpClient.get("/customers", {
+      Authorization: this.authHeader,
+    });
+    return customers;
+  }
 }
 
 export default LoyverseClient;

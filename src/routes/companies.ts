@@ -2,8 +2,8 @@ import type { Router } from "express";
 import {
   getAllCompanies,
   loyverseAuth,
-  getCompanyInvoices,
   getCompanyById,
+  getCompanyCustomers,
 } from "../controllers/companies";
 import { validate_loyverseAuth } from "../middlewares/companies";
 
@@ -16,4 +16,5 @@ export default (router: Router) => {
   );
   router.get("/company/:id", getCompanyById);
   // router.get("/companies/:id/invoices", getCompanyInvoices);
+  router.get("/company/:id/customers", getCompanyCustomers);
 };
