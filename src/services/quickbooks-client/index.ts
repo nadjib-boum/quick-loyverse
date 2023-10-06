@@ -14,8 +14,8 @@ class QuickbooksClient implements IQuickbooksClient {
   private tokens: Tokens;
   private clientId: string;
   private clientSecret: string;
-  private tokensHttpClient: HTTPClient;
-  private dataHttpClient: HTTPClient;
+  private tokensHttpClient;
+  private dataHttpClient;
 
   constructor(id: string) {
     this.id = id;
@@ -26,8 +26,22 @@ class QuickbooksClient implements IQuickbooksClient {
     };
     this.clientId = process.env.INTUIT_CLIENT_ID!;
     this.clientSecret = process.env.INTUIT_CLIENT_SECRET!;
-    this.tokensHttpClient = new HTTPClient(process.env.INTUIT_TOKEN_URL!);
-    this.dataHttpClient = new HTTPClient(process.env.INTUIT_BASE_URL!);
+    this.tokensHttpClient = HTTPClient.create({
+      baseURL: process.env.INTUIT_TOKEN_URL!,
+      headers: {
+        Accept: AuthHeaders.accept,
+        "Content-Type": AuthHeaders.contentType,
+        Authorization: `Basic ${this.getAuthHeader()}`,
+      },
+    });
+    this.dataHttpClient = HTTPClient.create({
+      baseURL: process.env.INTUIT_BASE_URL!,
+      headers: {
+        Accept: AuthHeaders.accept,
+        "Content-Type": AuthHeaders.contentType,
+        Authorization: `Basic ${this.getAuthHeader()}`,
+      },
+    });
   }
 
   public async init() {
@@ -49,19 +63,11 @@ class QuickbooksClient implements IQuickbooksClient {
 
   private async refreshAccessToken(): Promise<Tokens> {
     try {
-      const { refresh_token, access_token } = await this.tokensHttpClient.post<
-        Tokens,
-        string
-      >("/", {
-        headers: {
-          Accept: AuthHeaders.accept,
-          "Content-Type": AuthHeaders.contentType,
-          Authorization: `Basic ${this.getAuthHeader()}`,
-        },
-        body: HTTPClient.queryString({
-          grant_type: "refresh_token",
-          refresh_token: this.tokens.refresh_token,
-        }),
+      const {
+        data: { refresh_token, access_token },
+      } = await this.tokensHttpClient.post("/", {
+        grant_type: "refresh_token",
+        refresh_token: this.tokens.refresh_token,
       });
       await db.company.update({
         where: {
