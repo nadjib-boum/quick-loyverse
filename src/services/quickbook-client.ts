@@ -19,6 +19,17 @@ export type TokensExpiry = {
   refresh_token_expiry: number;
 };
 
+type QuickbooksCustomerData = {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  country: string;
+  zip_code: string;
+  notes: string;
+};
+
 class QuickbooksClient implements IQuickbooksClient {
   private id: string;
   private realmId: string;
@@ -158,6 +169,27 @@ class QuickbooksClient implements IQuickbooksClient {
     } catch (err) {
       return Promise.reject(err);
     }
+  }
+
+  public async insertCustomers(
+    companyid: string,
+    data: QuickbooksCustomerData
+  ) {
+    this.dataHttpClient.post(`/${companyid}/customers`, {
+      DisplayName: data.name,
+      Notes: data.notes,
+      PrimaryEmailAddr: {
+        Address: data.email,
+      },
+      PrimaryPhone: {
+        FreeFormNumber: data.phone,
+      },
+      BillAddr: {
+        City: data.city,
+        PostalCode: data.zip_code,
+        Country: data.country,
+      },
+    });
   }
 
   private getAuthHeader() {

@@ -4,6 +4,7 @@ import {
   loyverseAuth,
   getCompanyById,
   getCompanyCustomers,
+  getCompanyInvoices,
 } from "../controllers/companies";
 import { validate_loyverseAuth } from "../middlewares/companies";
 
@@ -15,6 +16,6 @@ export default (router: Router) => {
     loyverseAuth
   );
   router.get("/company/:id", getCompanyById);
-  // router.get("/companies/:id/invoices", getCompanyInvoices);
+  router.get("/companies/:id/invoices", getCompanyInvoices);
   router.get("/company/:id/customers", getCompanyCustomers);
 };

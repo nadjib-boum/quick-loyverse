@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import CompaniesService from "../services/companies";
 import LoyverseClient from "../services/loyverse-client";
+import QuickbooksClient from "../services/quickbook-client";
 
 export async function getAllCompanies(
   req: Request,
@@ -43,7 +44,6 @@ export async function loyverseAuth(
     next(err);
   }
 }
-/*
 export async function getCompanyInvoices(
   req: Request,
   res: Response,
@@ -59,7 +59,7 @@ export async function getCompanyInvoices(
     next(err);
   }
 }
-*/
+
 export async function getCompanyCustomers(
   req: Request,
   res: Response,

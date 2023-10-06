@@ -1,5 +1,5 @@
 import APIError from "../utils/errors";
-import TokensUtil from "../utils/tokens-util";
+import TokensUtil from "../utils/tokens";
 
 interface IUserService {
   login: (username: string, password: string) => string | undefined;
