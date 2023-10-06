@@ -146,14 +146,14 @@ class QuickbooksClient implements IQuickbooksClient {
     try {
       await this.validateTokens();
       const data = await this.dataHttpClient.post(
-        `/company/${this.realmId}/query`,
+        `/${this.realmId}/query`,
+        queryStr,
         {
           headers: {
             "Content-Type": "application/text",
             Accept: "application/json",
             Authorization: `Bearer ${this.tokens.access_token}`,
           },
-          body: queryStr,
         }
       );
       return data as T;
