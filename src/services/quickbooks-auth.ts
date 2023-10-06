@@ -1,5 +1,5 @@
 import { Account, Company } from "@prisma/client";
-import OAuthClient from "../../utils/intuit-auth";
+import OAuthClient from "../utils/intuit-auth";
 
 export type CompanyData = Pick<
   Company,

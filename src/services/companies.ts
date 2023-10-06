@@ -1,6 +1,6 @@
 import { Company } from "@prisma/client";
-import db, { type dbResponse } from "../../utils/db";
-import type { CompanyData } from "../quickbooks-auth";
+import db, { type dbResponse } from "../utils/db";
+import type { CompanyData } from "./quickbooks-auth";
 
 type CompanyItem = Pick<Company, "id" | "realmId" | "sub">;
 

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import UserService from "../services/user";
+import UserService from "../services/users";
 
 export function renderLogin(req: Request, res: Response) {
   res.status(200).render("pages/login");

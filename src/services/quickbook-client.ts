@@ -1,12 +1,23 @@
-import db from "../../utils/db";
-import APIError from "../../utils/errors";
-import HTTPClient from "../../utils/http";
-import {
-  type IQuickbooksClient,
-  type Tokens,
-  type TokensExpiry,
-  AuthHeaders,
-} from "./types";
+import db from "../utils/db";
+import APIError from "../utils/errors";
+import HTTPClient from "../utils/http";
+
+export type Tokens = {
+  access_token: string;
+  refresh_token: string;
+};
+
+export enum AuthHeaders {
+  accept = "application/json",
+  contentType = "application/x-www-form-urlencoded",
+}
+
+export interface IQuickbooksClient {}
+
+export type TokensExpiry = {
+  access_token_expiry: number;
+  refresh_token_expiry: number;
+};
 
 class QuickbooksClient implements IQuickbooksClient {
   private id: string;
@@ -14,6 +25,7 @@ class QuickbooksClient implements IQuickbooksClient {
   private tokens: Tokens;
   private clientId: string;
   private clientSecret: string;
+  private clientHeaders: { [key: string]: string };
   private tokensHttpClient;
   private dataHttpClient;
 
@@ -26,21 +38,18 @@ class QuickbooksClient implements IQuickbooksClient {
     };
     this.clientId = process.env.INTUIT_CLIENT_ID!;
     this.clientSecret = process.env.INTUIT_CLIENT_SECRET!;
+    this.clientHeaders = {
+      Accept: AuthHeaders.accept,
+      "Content-Type": AuthHeaders.contentType,
+      Authorization: `Basic ${this.getAuthHeader()}`,
+    };
     this.tokensHttpClient = HTTPClient.create({
       baseURL: process.env.INTUIT_TOKEN_URL!,
-      headers: {
-        Accept: AuthHeaders.accept,
-        "Content-Type": AuthHeaders.contentType,
-        Authorization: `Basic ${this.getAuthHeader()}`,
-      },
+      headers: this.clientHeaders,
     });
     this.dataHttpClient = HTTPClient.create({
       baseURL: process.env.INTUIT_BASE_URL!,
-      headers: {
-        Accept: AuthHeaders.accept,
-        "Content-Type": AuthHeaders.contentType,
-        Authorization: `Basic ${this.getAuthHeader()}`,
-      },
+      headers: this.clientHeaders,
     });
   }
 

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import UserService from "../services/user";
+import UserService from "../services/users";
 import APIError from "../utils/errors";
 
 export function validateLogin(req: Request, res: Response, next: NextFunction) {

@@ -1,5 +1,5 @@
-import db from "../../utils/db";
-import type { AccountData } from "../quickbooks-auth";
+import db from "../utils/db";
+import type { AccountData } from "./quickbooks-auth";
 
 const selectAccountFields = {
   id: true,

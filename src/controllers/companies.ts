@@ -70,7 +70,7 @@ export async function getCompanyCustomers(
     const company = await CompaniesService.getCompanyTokens(id);
     const lvc = new LoyverseClient({ access_token: company.loyverse_token });
     const customers = await lvc.getCustomers();
-    res.status(200).send({ status: "success", data: { customers } });
+    res.status(200).send({ status: "success", data: customers });
   } catch (err) {
     next(err);
   }
