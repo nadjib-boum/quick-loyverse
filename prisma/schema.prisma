@@ -28,7 +28,7 @@ model Company {
   loyverse_token            String          @default("")
   sub                       String
   accountId                 String          @db.ObjectId
-  account                   Account         @relation(fields: [accountId], references: [id])
+  account                   Account         @relation(fields: [accountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt                 DateTime        @default(now())
   updatedAt                 DateTime        @updatedAt 
 }
