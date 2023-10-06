@@ -14,8 +14,14 @@ class LoyverseClient implements ILoyverseClient {
   constructor(private authProps: AuthProps) {
     this.authProps = authProps;
     this.authHeader = `Bearer ${this.authProps.access_token}`;
-    this.loyverseHttpClient = new HTTPClient(process.env.LOYVERSE_BASE_URL!);
+    this.loyverseHttpClient = HTTPClient.create({
+      baseURL: "https://api.loyverse.com/v1.0",
+      headers: {
+        Authorization: this.authHeader,
+      },
+    });
   }
+  /*
   async getCategories() {
     const res = await fetch("https://api.loyverse.com/v1.0/categories", {
       method: "GET",
@@ -24,13 +30,12 @@ class LoyverseClient implements ILoyverseClient {
       },
     });
     const categories = await res.json();
-    /*
     const categories = await this.loyverseHttpClient.get("/categories", {
       Authorization: this.authHeader,
     });
-    */
     return categories;
   }
+    */
 
   async getCustomers() {
     try {
@@ -43,12 +48,9 @@ class LoyverseClient implements ILoyverseClient {
       });
       const customers = await res.json();
       */
-      const customers = await this.loyverseHttpClient.get("/customers", {
-        Authorization: this.authHeader,
-        Accept: "*/*",
-      });
+      const customers = await this.loyverseHttpClient.get("/customers");
 
-      return customers;
+      return customers.data;
     } catch (err) {
       return Promise.reject(err);
     }
