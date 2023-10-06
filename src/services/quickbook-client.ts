@@ -85,10 +85,13 @@ class QuickbooksClient implements IQuickbooksClient {
     try {
       const {
         data: { refresh_token, access_token },
-      } = await this.tokensHttpClient.post("/", {
-        grant_type: "refresh_token",
-        refresh_token: this.tokens.refresh_token,
-      });
+      } = await this.tokensHttpClient.post(
+        "/",
+        JSON.stringify({
+          grant_type: "refresh_token",
+          refresh_token: this.tokens.refresh_token,
+        })
+      );
       await db.company.update({
         where: {
           id: this.id,
@@ -147,14 +150,7 @@ class QuickbooksClient implements IQuickbooksClient {
       await this.validateTokens();
       const data = await this.dataHttpClient.post(
         `/${this.realmId}/query`,
-        queryStr,
-        {
-          headers: {
-            "Content-Type": "application/text",
-            Accept: "application/json",
-            Authorization: `Bearer ${this.tokens.access_token}`,
-          },
-        }
+        queryStr
       );
       return data as T;
     } catch (err) {
